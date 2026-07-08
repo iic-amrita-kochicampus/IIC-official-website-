@@ -51,25 +51,34 @@ The technologies planned for the project include:
 # Folder Structure
 
 ```bash
-IIC-Website/
+IIC Website/
 │
 ├── index.html
-├── assets/
-│   ├── images/
-│   ├── icons/
-│   └── videos/
-│
-├── css/
-│   └── style.css
-│
-├── js/
-│   └── script.js
-│
 ├── pages/
 │   ├── about.html
 │   ├── events.html
 │   ├── gallery.html
-│   └── contact.html
+│   ├── login.html
+│   └── admin.html
+│
+├── css/
+│   ├── style.css
+│   ├── admin.css
+│   └── login.css
+│
+├── js/
+│   ├── script.js
+│   ├── admin.js
+│   ├── auth.js
+│   ├── events.js
+│   ├── gallery.js
+│   ├── ideas.js
+│   └── supabase.js
+│
+├── assets/
+│   ├── images/
+│   ├── icons/
+│   └── logo/
 │
 └── README.md
 ```
