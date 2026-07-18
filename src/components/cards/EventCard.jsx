@@ -1,0 +1,51 @@
+import Reveal from '../common/Reveal'
+import Countdown from '../Countdown/Countdown'
+
+function formatDate(dateStr) {
+  if (!dateStr) return 'Pending'
+  const d = new Date(dateStr)
+  if (Number.isNaN(d.getTime())) return 'Pending'
+  return d.toLocaleDateString('en-IN', { month: 'short', year: 'numeric', day: 'numeric' })
+}
+
+export default function EventCard({ event: e, index: i, tab }) {
+  const targetDate = e.event_date
+    ? `${e.event_date}T${e.event_time || '00:00:00'}`
+    : null
+
+  return (
+    <Reveal delay={i * 0.08} x={i % 2 === 0 ? -40 : 40} y={0} className="glass-card rounded-2xl overflow-hidden">
+      <div className="aspect-video bg-gradient-to-br from-innovation-blue/10 to-innovation-orange/10 flex items-center justify-center text-fog font-mono text-xs overflow-hidden">
+        {e.poster_url ? (
+          <img src={e.poster_url} alt={e.title} className="w-full h-full object-cover" />
+        ) : (
+          'Pending'
+        )}
+      </div>
+      <div className="p-6">
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <span className="text-xs font-mono text-innovation-orange">{formatDate(e.event_date)}</span>
+          {e.venue && <span className="text-xs font-mono text-fog">{e.venue}</span>}
+        </div>
+        <h3 className="font-display text-xl text-paper mt-2">{e.title}</h3>
+        <p className="text-fog text-sm mt-2">{e.description || 'Pending'}</p>
+
+        {tab === 'upcoming' && targetDate && (
+          <div className="mt-4">
+            <Countdown targetDate={targetDate} compact />
+          </div>
+        )}
+
+        {tab === 'upcoming' && (
+          <a
+            href={e.registration_url || '#'}
+            data-cursor-hover
+            className="mt-4 inline-block text-xs font-mono uppercase text-innovation-blue border border-innovation-blue/50 rounded-full px-3 py-1.5 hover:bg-innovation-blue hover:text-void transition-colors"
+          >
+            {e.registration_url ? 'Learn More' : 'Pending'}
+          </a>
+        )}
+      </div>
+    </Reveal>
+  )
+}
