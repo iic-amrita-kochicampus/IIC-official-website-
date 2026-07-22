@@ -26,6 +26,7 @@ export const TABLES = {
   IDEAS: 'ideas',
   QUERIES: 'queries',
   CONTACTS: 'contacts',
+SETTINGS: 'settings',
 };
 
 export const BUCKETS = {
