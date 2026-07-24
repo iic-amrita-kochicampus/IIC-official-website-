@@ -1,4 +1,5 @@
 import Logo from '../../components/common/Logo'
+import iicLogo from '../../assets/logos/iic-logo.png'
 import MaskReveal from '../../components/common/MaskReveal'
 import TextReveal from '../../components/common/TextReveal'
 import { useRef, useMemo } from 'react'
@@ -64,47 +65,60 @@ export default function Home() {
             <span className="eyebrow hidden sm:block">// signal: active</span>
           </div>
 
-          <div className="max-w-[1400px] w-full mx-auto px-6 md:px-10 pb-16">
-            <span className="eyebrow block mb-4">Amrita Vishwa Vidyapeetham</span>
-            <h1 className="font-display leading-[0.92] text-paper">
-              <ScrambleText
-                as="span"
-                trigger="mount"
-                text="INSTITUTION'S"
-                className="block text-[11vw] md:text-[5.2vw] tracking-tight"
-              />
-              <ScrambleText
-                as="span"
-                trigger="mount"
-                text="INNOVATION"
-                className="block text-[11vw] md:text-[5.2vw] tracking-tight gradient-text"
-              />
-              <ScrambleText
-                as="span"
-                trigger="mount"
-                text="COUNCIL"
-                className="block text-[11vw] md:text-[5.2vw] tracking-tight"
-              />
-            </h1>
-            <p className="mt-6 max-w-md text-fog text-base md:text-lg font-body pointer-events-auto">
-              The Institution's Innovation Council fosters a vibrant ecosystem of creativity and entrepreneurship, bridging academia and industry to transform ideas into impactful solutions.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-4 pointer-events-auto">
-              <NavLink
-                to="/team"
-                data-cursor-hover
-                className="btn-premium px-7 py-3.5 rounded-full bg-gradient-to-r from-innovation-blue to-innovation-orange text-void text-sm font-mono font-medium uppercase tracking-wide hover:shadow-[0_0_35px_-5px_rgba(43,111,255,0.7)] transition-shadow"
-              >
-                Meet the Team
-              </NavLink>
-              <NavLink
-                to="/ideas-queries"
-                data-cursor-hover
-                className="px-7 py-3.5 rounded-full border border-white/15 backdrop-blur-sm bg-white/[0.03] text-paper text-sm font-mono uppercase tracking-wide hover:border-innovation-blue hover:text-innovation-blue transition-colors"
-              >
-                Submit an Idea
-              </NavLink>
+          <div className="max-w-[1400px] w-full mx-auto px-6 md:px-10 pb-16 flex flex-col-reverse lg:flex-row lg:items-center lg:justify-between gap-10 lg:gap-16">
+            <div className="flex-1 min-w-0">
+              <span className="eyebrow block mb-4">Amrita Vishwa Vidyapeetham</span>
+              <h1 className="font-display leading-[0.92] text-paper">
+                <ScrambleText
+                  as="span"
+                  trigger="mount"
+                  text="INSTITUTION'S"
+                  className="block text-[11vw] md:text-[5.2vw] tracking-tight"
+                />
+                <ScrambleText
+                  as="span"
+                  trigger="mount"
+                  text="INNOVATION"
+                  className="block text-[11vw] md:text-[5.2vw] tracking-tight gradient-text"
+                />
+                <ScrambleText
+                  as="span"
+                  trigger="mount"
+                  text="COUNCIL"
+                  className="block text-[11vw] md:text-[5.2vw] tracking-tight"
+                />
+              </h1>
+              <p className="mt-6 max-w-md text-fog text-base md:text-lg font-body pointer-events-auto">
+                The Institution's Innovation Council fosters a vibrant ecosystem of creativity and entrepreneurship, bridging academia and industry to transform ideas into impactful solutions.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-4 pointer-events-auto">
+                <NavLink
+                  to="/team"
+                  data-cursor-hover
+                  className="btn-premium px-7 py-3.5 rounded-full bg-gradient-to-r from-innovation-blue to-innovation-orange text-void text-sm font-mono font-medium uppercase tracking-wide hover:shadow-[0_0_35px_-5px_rgba(43,111,255,0.7)] transition-shadow"
+                >
+                  Meet the Team
+                </NavLink>
+                <NavLink
+                  to="/ideas-queries"
+                  data-cursor-hover
+                  className="px-7 py-3.5 rounded-full border border-white/15 backdrop-blur-sm bg-white/[0.03] text-paper text-sm font-mono uppercase tracking-wide hover:border-innovation-blue hover:text-innovation-blue transition-colors"
+                >
+                  Submit an Idea
+                </NavLink>
+              </div>
             </div>
+
+            <Reveal x={40} y={0} className="pointer-events-auto shrink-0 self-center lg:self-auto">
+              <div className="relative w-[180px] h-[180px] md:w-[240px] md:h-[240px] lg:w-[280px] lg:h-[280px] mx-auto">
+                <div className="absolute -inset-4 rounded-full bg-gradient-to-br from-innovation-blue/30 via-innovation-orange/20 to-maroon/20 blur-2xl animate-pulse" />
+                <div className="relative w-full h-full rounded-full border border-white/20 bg-gradient-to-br from-innovation-blue to-innovation-orange p-[3px] shadow-[0_0_60px_-10px_rgba(43,111,255,0.5)]">
+                  <div className="w-full h-full rounded-full bg-white/95 backdrop-blur-md flex items-center justify-center overflow-hidden p-4">
+                    <img src={iicLogo} alt="Institution's Innovation Council" className="w-full h-full object-contain" />
+                  </div>
+                </div>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -168,18 +182,26 @@ export default function Home() {
       </section>
 
       {/* CERTIFICATIONS STRIP */}
+            {/* CERTIFICATIONS STRIP */}
       <section className="max-w-[1400px] mx-auto px-6 md:px-10 py-20">
         <Reveal>
           <span className="eyebrow">Established &amp; recognized by</span>
         </Reveal>
+
         <div className="mt-8 flex flex-wrap gap-4">
           {CERTS.map((c, i) => (
             <Reveal key={c.org} delay={i * 0.08} x={-50} y={0}>
-              <div className="glass-card rounded-xl flex items-center gap-4 px-6 py-4">
+              <div className="glass-card rounded-xl flex items-center justify-between gap-4 px-6 py-4">
                 <div>
-                  <div className="text-sm text-paper font-medium">{c.org}</div>
-                  <div className="text-xs text-fog font-mono">{c.note}</div>
+                  <div className="text-sm text-paper font-medium">
+                    {c.org}
+                  </div>
+
+                  <div className="text-xs text-fog font-mono">
+                    {c.note}
+                  </div>
                 </div>
+
                 <a
                   href={c.href}
                   data-cursor-hover
