@@ -16,23 +16,21 @@ export default function About() {
       <Reveal>
         <span className="eyebrow">About</span>
       </Reveal>
-      <div className="mt-6 max-w-3xl">
-        <TextReveal
-          as="h1"
-          text="We exist so good ideas don't die in a WhatsApp group."
-          className="font-display text-3xl md:text-6xl leading-tight text-paper"
-          trigger="mount"
-        />
-      </div>
+      <div className="mt-6 max-w-5xl">
+       <TextReveal
+       as="p"
+       text="In the year 2018, the Ministry of Education (MoE) through MoE's Innovation Cell (MIC) launched the Institution's Innovation Council (IIC) program in collaboration with AICTE for Higher Educational Institutions (HEIs) to systematically foster the culture of innovation and start-up ecosystem in education institutions."
+       className="font-display text-base md:text-xl leading-relaxed text-paper"
+       trigger="mount"
+  />
+</div>
 
       <div className="mt-20 grid md:grid-cols-2 gap-6">
         <Reveal x={-60} y={0}>
           <div className="glass-card rounded-2xl p-8 h-full bg-gradient-to-br from-innovation-blue/10 to-transparent">
             <span className="eyebrow">Mission</span>
             <p className="mt-4 text-fog leading-relaxed">
-              To build a culture of innovation on campus by giving every student a real path from
-              raw idea to research to a working project — with mentorship, structure, and visibility
-              at every step.
+              The primary focus of an Institution's Innovation Council (IIC) is to foster a culture of innovation and entrepreneurship within higher education institutions (HEIs). This involves creating a vibrant local innovation ecosystem, supporting student startups, and preparing institutions for the Atal Ranking of Institutions on Innovation Achievements framework.
             </p>
           </div>
         </Reveal>
@@ -40,8 +38,9 @@ export default function About() {
           <div className="glass-card rounded-2xl p-8 h-full bg-gradient-to-br from-innovation-orange/10 to-transparent">
             <span className="eyebrow">Vision</span>
             <p className="mt-4 text-fog leading-relaxed">
-              A campus where innovation isn&apos;t confined to a few labs or a few students — where
-              curiosity is systematically turned into capability.
+              Primarily, IICs' role is to engage large number of faculty, students and staff in various innovation and entrepreneurship related activities such as ideation, Problem solving, Proof of Concept development, Design Thinking, IPR, project handling and management at Pre-incubation/Incubation stage, etc., so that innovation and entrepreneurship ecosystem gets established and stabilized in HEIs.
+
+
             </p>
           </div>
         </Reveal>

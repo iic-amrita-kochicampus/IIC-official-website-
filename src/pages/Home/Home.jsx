@@ -87,8 +87,7 @@ export default function Home() {
               />
             </h1>
             <p className="mt-6 max-w-md text-fog text-base md:text-lg font-body pointer-events-auto">
-              Where a student&apos;s raw idea becomes research, a project, and eventually, impact —
-              built on Amrita&apos;s culture of innovation.
+              The Institution's Innovation Council fosters a vibrant ecosystem of creativity and entrepreneurship, bridging academia and industry to transform ideas into impactful solutions.
             </p>
             <div className="mt-8 flex flex-wrap gap-4 pointer-events-auto">
               <NavLink

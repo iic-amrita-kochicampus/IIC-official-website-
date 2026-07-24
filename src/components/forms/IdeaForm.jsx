@@ -68,9 +68,9 @@ export default function IdeaForm() {
 
       <div>
         <label className="text-xs font-mono uppercase text-fog">Category</label>
-        <select className={inputClass} {...register('category', { required: 'Required' })}>
-          <option value="">Select a category</option>
-          {IDEA_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+        <select className={inputClass} style={{ backgroundColor: '#101320', color: '#666e8a' }} {...register('category', { required: 'Required' })}>
+         <option value="" style={{ backgroundColor: '#101320', color: '#f3f5fb' }}>Select a category</option>
+           {IDEA_CATEGORIES.map((c) => <option key={c} value={c} style={{ backgroundColor: '#101320  ', color: '#666e8a' }}>{c}</option>)}
         </select>
         {errors.category && <p className={errorClass}>{errors.category.message}</p>}
       </div>
