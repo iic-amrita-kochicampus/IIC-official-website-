@@ -3,9 +3,15 @@ import Countdown from '../Countdown/Countdown'
 
 function formatDate(dateStr) {
   if (!dateStr) return 'Pending'
+
   const d = new Date(dateStr)
   if (Number.isNaN(d.getTime())) return 'Pending'
-  return d.toLocaleDateString('en-IN', { month: 'short', year: 'numeric', day: 'numeric' })
+
+  return d.toLocaleDateString('en-IN', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  })
 }
 
 export default function EventCard({ event: e, index: i, tab }) {
@@ -14,28 +20,76 @@ export default function EventCard({ event: e, index: i, tab }) {
     : null
 
   return (
-    <Reveal delay={i * 0.08} x={i % 2 === 0 ? -40 : 40} y={0} className="glass-card rounded-2xl overflow-hidden">
+    <Reveal
+      delay={i * 0.08}
+      x={i % 2 === 0 ? -40 : 40}
+      y={0}
+      className="glass-card rounded-2xl overflow-hidden"
+    >
+      {/* Poster */}
       <div className="aspect-video bg-gradient-to-br from-innovation-blue/10 to-innovation-orange/10 flex items-center justify-center text-fog font-mono text-xs overflow-hidden">
         {e.poster_url ? (
-          <img src={e.poster_url} alt={e.title} className="w-full h-full object-cover" />
+          <img
+            src={e.poster_url}
+            alt={e.title}
+            className="w-full h-full object-cover"
+          />
         ) : (
           'Pending'
         )}
       </div>
+
+      {/* Content */}
       <div className="p-6">
         <div className="flex items-center justify-between gap-4 flex-wrap">
-          <span className="text-xs font-mono text-innovation-orange">{formatDate(e.event_date)}</span>
-          {e.venue && <span className="text-xs font-mono text-fog">{e.venue}</span>}
-        </div>
-        <h3 className="font-display text-xl text-paper mt-2">{e.title}</h3>
-        <p className="text-fog text-sm mt-2">{e.description || 'Pending'}</p>
+          <span className="text-xs font-mono text-innovation-orange">
+            {formatDate(e.event_date)}
+          </span>
 
+          {e.venue && (
+            <span className="text-xs font-mono text-fog">
+              {e.venue}
+            </span>
+          )}
+        </div>
+
+        {/* Title */}
+        <h3 className="font-display text-xl text-paper mt-2">
+          {e.title}
+        </h3>
+
+        {/* Coordinators */}
+        {e.faculty_coordinator && (
+          <p className="text-sm text-paper mt-3">
+            <span className="font-semibold text-innovation-orange">
+              Faculty Coordinator:
+            </span>{' '}
+            {e.FacultyCoordinator}
+          </p>
+        )}
+
+        {e.student_coordinator && (
+          <p className="text-sm text-paper mt-1">
+            <span className="font-semibold text-innovation-orange">
+              Student Coordinator:
+            </span>{' '}
+            {e.StudentCoordinator}
+          </p>
+        )}
+
+        {/* Description */}
+        <p className="text-fog text-sm mt-3">
+          {e.description || 'Pending'}
+        </p>
+
+        {/* Countdown */}
         {tab === 'upcoming' && targetDate && (
           <div className="mt-4">
             <Countdown targetDate={targetDate} compact />
           </div>
         )}
 
+        {/* Button */}
         {tab === 'upcoming' && (
           <a
             href={e.registration_url || '#'}

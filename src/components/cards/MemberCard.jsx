@@ -19,6 +19,8 @@ function LeadershipVariant({ person, index }) {
         <span className="text-[10px] font-mono uppercase text-innovation-orange">{person.position}</span>
         <div className="text-paper text-sm font-medium mt-1">{person.name}</div>
         <div className="text-fog text-xs font-mono">{person.department || 'Pending'}</div>
+        <div className="text-paper text-sm font-medium mt-1">{person.email}</div>
+        
       </div>
     </div>
   )
