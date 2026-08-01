@@ -41,7 +41,7 @@ export default function Navbar() {
           <Logo src={iicLogo} alt="Institution's Innovation Council" layout="full" size={46} />
           <NavLink to="/" className="hidden sm:flex flex-col leading-none ml-2" data-cursor-hover>
             <span className="font-display text-sm tracking-tight text-paper">Innovation Council</span>
-            <span className="text-[10px] font-mono text-fog">Amrita Vishwa Vidyapeetham</span>
+            <span className="text-[10px] font-mono text-fog">Amrita Vishwa Vidyapeetham,Kochi Campus</span>
           </NavLink>
         </div>
 

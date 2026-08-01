@@ -64,7 +64,7 @@ export default function EventCard({ event: e, index: i, tab }) {
             <span className="font-semibold text-innovation-orange">
               Faculty Coordinator:
             </span>{' '}
-            {e.FacultyCoordinator}
+            {e.FacultyoCoordinator}
           </p>
         )}
 

@@ -15,17 +15,17 @@ export default function Contact() {
         <Reveal delay={0.1} x={-50} y={0} className="space-y-6 glass-card rounded-2xl p-8">
           <div>
             <span className="eyebrow">Email</span>
-            <a href="mailto:iic@college.edu" className="block mt-2 text-paper hover:text-innovation-blue">iic@college.edu</a>
+            <a href="mailto:iic@kh.amrita.edu" className="block mt-2 text-paper hover:text-innovation-blue">iic@kh.amrita.edu</a>
           </div>
           <div>
             <span className="eyebrow">Location</span>
-            <p className="mt-2 text-fog text-sm">Amrita Vishwa Vidyapeetham, Kochi</p>
+            <p className="mt-2 text-fog text-sm">Amrita Vishwa Vidyapeetham, Kochi Campus</p>
           </div>
           <div>
             <span className="eyebrow">Social</span>
             <div className="flex gap-4 mt-2">
-              <a href="#" className="text-fog hover:text-innovation-blue text-sm font-mono">Instagram</a>
-              <a href="#" className="text-fog hover:text-innovation-blue text-sm font-mono">LinkedIn</a>
+              <a href="https://www.instagram.com/iic.asas/" className="text-fog hover:text-innovation-blue text-sm font-mono">Instagram</a>
+              <a href="https://www.linkedin.com/company/institutions-innovation-council-asas/posts/?feedView=all" className="text-fog hover:text-innovation-blue text-sm font-mono">LinkedIn</a>
             </div>
           </div>
         </Reveal>

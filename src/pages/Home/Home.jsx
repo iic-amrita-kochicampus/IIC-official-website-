@@ -13,7 +13,7 @@ import { TABLES } from '../../services/supabase'
 const CERTS = [
   { org: 'MoE Innovation Cell', note: 'Established Council', href: '/establishment' },
   { org: 'AICTE', note: 'Recognized IIC', href: '/establishment' },
-  { org: 'Amrita Vishwa Vidyapeetham', note: 'Founding Charter', href: '/establishment' },
+  { org: 'Amrita Vishwa Vidyapeetham,Kochi Campus', note: 'Founding Charter', href: '/establishment' },
 ]
 
 const FUNCTIONS = [
@@ -66,7 +66,7 @@ export default function Home() {
 
           <div className="max-w-[1400px] w-full mx-auto px-6 md:px-10 pb-16 flex flex-col-reverse lg:flex-row lg:items-center lg:justify-between gap-10 lg:gap-16">
             <div className="flex-1 min-w-0">
-              <span className="eyebrow block mb-4">Amrita Vishwa Vidyapeetham</span>
+              <span className="eyebrow block mb-4">Amrita Vishwa Vidyapeetham,Kochi Campus</span>
               <h1 className="font-display leading-[0.92] text-paper">
                 <ScrambleText
                   as="span"

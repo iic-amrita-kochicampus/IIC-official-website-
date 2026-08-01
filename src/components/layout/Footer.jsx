@@ -16,7 +16,7 @@ export default function Footer() {
             <span className="font-display text-lg">Innovation Council</span>
           </div>
           <p className="text-sm text-fog max-w-sm">
-            Institution&apos;s Innovation Council, Amrita Vishwa Vidyapeetham — a Ministry of Education
+            Institution&apos;s Innovation Council, Amrita Vishwa Vidyapeetham,Kochi Campus — a Ministry of Education
             initiative turning student ideas into research, projects, and impact.
           </p>
           <p className="mt-4 text-sm gradient-text font-display italic">
@@ -61,7 +61,7 @@ export default function Footer() {
 
       <div className="hairline relative" />
       <div className="relative max-w-[1400px] mx-auto px-6 md:px-10 py-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-fog font-mono">
-        <span>Amrita Vishwa Vidyapeetham · Institution&apos;s Innovation Council · {new Date().getFullYear()}</span>
+        <span>Amrita Vishwa Vidyapeetham,Kochi Campus · Institution&apos;s Innovation Council · {new Date().getFullYear()}</span>
         <div className="flex items-center gap-2">
           <NavLink
             to="/admin/login"
