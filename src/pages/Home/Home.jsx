@@ -62,7 +62,6 @@ export default function Home() {
               <Logo initials="IIC" alt="Institution's Innovation Council" tone="iic" size={30} />
               <span className="eyebrow ml-1">Ministry of Education Initiative</span>
             </div>
-            <span className="eyebrow hidden sm:block">// signal: active</span>
           </div>
 
           <div className="max-w-[1400px] w-full mx-auto px-6 md:px-10 pb-16 flex flex-col-reverse lg:flex-row lg:items-center lg:justify-between gap-10 lg:gap-16">
