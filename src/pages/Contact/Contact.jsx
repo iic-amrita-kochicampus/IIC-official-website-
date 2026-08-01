@@ -19,7 +19,7 @@ export default function Contact() {
           </div>
           <div>
             <span className="eyebrow">Location</span>
-            <p className="mt-2 text-fog text-sm">Innovation Cell Office, [Building Name], [College Name], Kochi</p>
+            <p className="mt-2 text-fog text-sm">Amrita Vishwa Vidyapeetham, Kochi</p>
           </div>
           <div>
             <span className="eyebrow">Social</span>

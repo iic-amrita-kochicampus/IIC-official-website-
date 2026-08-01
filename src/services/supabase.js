@@ -1,32 +1,29 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
-let supabase;
-
-if (!supabaseUrl || supabaseUrl === 'your_supabase_url_here' || !supabaseAnonKey || supabaseAnonKey === 'your_supabase_anon_key_here') {
-  console.warn('⚠ Supabase not configured. Edit .env with your real Supabase URL and anon key.');
-  supabase = createClient('https://placeholder.supabase.co', 'placeholder-key');
-} else {
-  supabase = createClient(supabaseUrl, supabaseAnonKey);
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error(
+    'Missing Supabase environment variables. Check your .env file.'
+  )
 }
 
-export { supabase };
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 export const TABLES = {
   LEADERSHIP: 'leadership',
   MEMBERS: 'members',
   EVENTS: 'events',
   NOTICES: 'notices',
-  AMBASSADORS: 'innovation_ambassadors',
+  AMBASSADORS: 'ambassadors',
   RESEARCH: 'research',
   PROJECTS: 'projects',
   CERTIFICATES: 'certificates',
   IDEAS: 'ideas',
   QUERIES: 'queries',
   CONTACTS: 'contacts',
-SETTINGS: 'settings',
+  SETTINGS: 'settings',
 };
 
 export const BUCKETS = {
