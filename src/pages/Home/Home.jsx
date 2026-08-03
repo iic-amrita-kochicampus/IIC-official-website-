@@ -2,13 +2,11 @@ import Logo from '../../components/common/Logo'
 import iicLogo from '../../assets/logos/iic-logo.png'
 import MaskReveal from '../../components/common/MaskReveal'
 import TextReveal from '../../components/common/TextReveal'
-import { useRef, useMemo } from 'react'
+import { useRef } from 'react'
 import { NavLink } from 'react-router-dom'
 import HeroScene from '../../components/three/HeroScene'
 import ScrambleText from '../../components/common/ScrambleText'
 import Reveal from '../../components/common/Reveal'
-import { useSupabase } from '../../hooks/useSupabase'
-import { TABLES } from '../../services/supabase'
 
 const CERTS = [
   { org: 'MoE Innovation Cell', note: 'Established Council', href: '/establishment' },
@@ -25,23 +23,6 @@ const FUNCTIONS = [
 
 export default function Home() {
   const heroRef = useRef(null)
-
-  const { data: events } = useSupabase(TABLES.EVENTS, { select: 'id' })
-  const { data: projects } = useSupabase(TABLES.PROJECTS, { select: 'id,status' })
-  const { data: ambassadors } = useSupabase(TABLES.AMBASSADORS, { select: 'id' })
-  const { data: members } = useSupabase(TABLES.MEMBERS, { select: 'id,team' })
-
-  const STATS = useMemo(() => {
-    const coreTeams = new Set((members || []).map((m) => m.team).filter(Boolean)).size
-    const activeProjects = (projects || []).filter((p) => p.status === 'Ongoing').length
-
-    return [
-      { value: String((events || []).length), label: 'Events Hosted' },
-      { value: String(activeProjects), label: 'Active Projects' },
-      { value: String((ambassadors || []).length), label: 'Ambassadors' },
-      { value: String(coreTeams), label: 'Core Teams' },
-    ]
-  }, [events, projects, ambassadors, members])
 
   return (
     <>
@@ -122,21 +103,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* STATS STRIP */}
-      <section className="relative bg-ink border-y border-line">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-10 grid grid-cols-2 md:grid-cols-4 gap-4 py-14">
-          {STATS.map((s, i) => (
-            <Reveal key={s.label} delay={i * 0.06} x={i % 2 === 0 ? -40 : 40} y={20}>
-              <div className="glass-card rounded-2xl p-6 md:p-8 text-center">
-                <div className="font-display text-3xl md:text-5xl gradient-text">{s.value}</div>
-                <div className="mt-2 text-xs font-mono uppercase tracking-wide text-fog">{s.label}</div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* ABOUT PREVIEW */}
+{/* ABOUT PREVIEW */}
       <section className="max-w-[1400px] mx-auto px-6 md:px-10 py-24 md:py-32">
         <Reveal>
           <span className="eyebrow">Who we are</span>
