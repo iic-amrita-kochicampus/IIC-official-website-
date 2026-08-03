@@ -11,6 +11,12 @@ import { NOTICE_CATEGORIES, formatDate } from '../../../utils/helpers';
 
 const emptyForm = { title: '', description: '', category: 'General', published_date: new Date().toISOString().split('T')[0], deadline: '', external_link: '', is_pinned: false, is_active: true };
 
+const normalizeNoticeData = (data) => ({
+  ...data,
+  deadline: data.deadline ? data.deadline : null,
+  external_link: data.external_link?.trim() ? data.external_link.trim() : null,
+});
+
 export default function AdminNotices() {
   const { data: notices, loading, refetch } = useSupabase(TABLES.NOTICES, { orderBy: 'published_date', ascending: false });
   const { insert } = useSupabaseInsert(TABLES.NOTICES);
@@ -24,11 +30,13 @@ export default function AdminNotices() {
   const openEdit = (n) => { setEditing(n); reset(n); setModalOpen(true); };
 
   const onSubmit = async (data) => {
+    const normalizedData = normalizeNoticeData(data);
+
     if (editing) {
-      const { error } = await update(editing.id, data);
+      const { error } = await update(editing.id, normalizedData);
       if (error) toast.error(error.message); else { toast.success('Updated!'); refetch(); }
     } else {
-      const { error } = await insert(data);
+      const { error } = await insert(normalizedData);
       if (error) toast.error(error.message); else { toast.success('Added!'); refetch(); }
     }
     setModalOpen(false);
@@ -81,7 +89,11 @@ export default function AdminNotices() {
             <div><label className="block text-sm font-medium text-admin-muted mb-1">Category</label><select {...register('category')} className="w-full px-4 py-2.5 admin-input">{NOTICE_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}</select></div>
             <div><label className="block text-sm font-medium text-admin-muted mb-1">Published Date</label><input type="date" {...register('published_date')} className="w-full px-4 py-2.5 admin-input" /></div>
           </div>
-          <div><label className="block text-sm font-medium text-admin-muted mb-1">Deadline</label><input type="date" {...register('deadline')} className="w-full px-4 py-2.5 admin-input" /></div>
+          <div>
+            <label className="block text-sm font-medium text-admin-muted mb-1">Deadline (optional)</label>
+            <input type="date" {...register('deadline')} className="w-full px-4 py-2.5 admin-input" />
+            <p className="mt-1 text-xs text-admin-muted">Leave this empty if the notice does not have a deadline.</p>
+          </div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">External Link</label><input {...register('external_link')} className="w-full px-4 py-2.5 admin-input" /></div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2"><input type="checkbox" {...register('is_pinned')} className="w-4 h-4" /><label className="text-sm text-admin-muted">Pinned</label></div>

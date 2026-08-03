@@ -7,6 +7,9 @@ import { NavLink } from 'react-router-dom'
 import HeroScene from '../../components/three/HeroScene'
 import ScrambleText from '../../components/common/ScrambleText'
 import Reveal from '../../components/common/Reveal'
+import NoticeCard from '../../components/cards/NoticeCard'
+import { useSupabase } from '../../hooks/useSupabase'
+import { TABLES } from '../../services/supabase'
 
 const CERTS = [
   { org: 'MoE Innovation Cell', note: 'Established Council', href: '/establishment' },
@@ -23,6 +26,17 @@ const FUNCTIONS = [
 
 export default function Home() {
   const heroRef = useRef(null)
+  const { data: notices, loading: noticesLoading } = useSupabase(TABLES.NOTICES, {
+    filters: { is_active: true },
+    orderBy: 'published_date',
+    ascending: false,
+  })
+
+  const sortedNotices = [...notices].sort((a, b) => {
+    if (a.is_pinned && !b.is_pinned) return -1
+    if (!a.is_pinned && b.is_pinned) return 1
+    return 0
+  })
 
   return (
     <>
@@ -148,7 +162,6 @@ export default function Home() {
       </section>
 
       {/* CERTIFICATIONS STRIP */}
-            {/* CERTIFICATIONS STRIP */}
       <section className="max-w-[1400px] mx-auto px-6 md:px-10 py-20">
         <Reveal>
           <span className="eyebrow">Established &amp; recognized by</span>
@@ -178,6 +191,69 @@ export default function Home() {
               </div>
             </Reveal>
           ))}
+        </div>
+      </section>
+
+      {/* NOTICES — latest updates & announcements */}
+      <section className="relative border-t border-line bg-ink bg-grid overflow-hidden">
+        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] rounded-full bg-innovation-orange/10 blur-[140px] pointer-events-none" />
+        <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full bg-innovation-blue/10 blur-[140px] pointer-events-none" />
+        <div className="relative max-w-[1400px] mx-auto px-6 md:px-10 py-24 md:py-32">
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <Reveal>
+                <span className="eyebrow">Notices &amp; Updates</span>
+              </Reveal>
+              <Reveal delay={0.1} className="mt-4">
+                <h2 className="font-display text-3xl md:text-5xl text-paper leading-tight">
+                  Stay in <span className="gradient-text">the loop</span>
+                </h2>
+              </Reveal>
+              <Reveal delay={0.2} className="mt-4 max-w-lg">
+                <p className="text-fog text-sm leading-relaxed">
+                  Announcements, deadlines and opportunities from the council — fresh off the press.
+                </p>
+              </Reveal>
+            </div>
+            <Reveal delay={0.25}>
+              <NavLink
+                to="/events"
+                data-cursor-hover
+                className="inline-flex items-center gap-2 text-innovation-blue text-sm font-mono uppercase tracking-wide border border-innovation-blue/50 rounded-full px-5 py-2.5 hover:bg-innovation-blue hover:text-void transition-colors"
+              >
+                View All <span aria-hidden>→</span>
+              </NavLink>
+            </Reveal>
+          </div>
+
+          <div className="mt-12">
+            {noticesLoading ? (
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[0, 1, 2].map((i) => (
+                  <div key={i} className="glass-card rounded-2xl p-5 h-[220px] animate-pulse">
+                    <div className="w-1/3 h-3 rounded-full bg-white/10" />
+                    <div className="w-2/3 h-4 rounded-full bg-white/10 mt-4" />
+                    <div className="w-full h-3 rounded-full bg-white/5 mt-6" />
+                    <div className="w-4/5 h-3 rounded-full bg-white/5 mt-2" />
+                  </div>
+                ))}
+              </div>
+            ) : sortedNotices.length > 0 ? (
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {sortedNotices.slice(0, 6).map((notice, i) => (
+                  <Reveal key={notice.id} delay={(i % 3) * 0.08} y={30}>
+                    <NoticeCard notice={notice} />
+                  </Reveal>
+                ))}
+              </div>
+            ) : (
+              <Reveal>
+                <div className="glass-card rounded-2xl p-10 text-center">
+                  <p className="text-fog text-sm font-mono">No notices published yet — check back soon.</p>
+                </div>
+              </Reveal>
+            )}
+          </div>
         </div>
       </section>
 

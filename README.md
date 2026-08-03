@@ -1,3 +1,46 @@
+# IIC Portal — Institution's Innovation Council
+
+Official website for the Institution's Innovation Council (IIC), Amrita Vishwa
+Vidyapeetham, Kochi Campus. Built with **React + Vite + Tailwind CSS + Supabase**.
+
+## Setup
+
+> **Important:** This project needs a Supabase project. The credentials live in a
+> `.env` file that is **gitignored** (never committed), so each developer must
+> create their own copy.
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Create your environment file from the template:
+   ```bash
+   cp .env.example .env
+   ```
+   On Windows (PowerShell):
+   ```powershell
+   Copy-Item .env.example .env
+   ```
+
+3. Open `.env` and fill in your Supabase values:
+   ```
+   VITE_SUPABASE_URL=your-supabase-project-url
+   VITE_SUPABASE_ANON_KEY=your-supabase-anon-public-key
+   ```
+   You can find these under **Supabase → Project Settings → API**.
+
+4. Run the dev server:
+   ```bash
+   npm run dev
+   ```
+
+If forms (Ideas, Queries, Contact) fail to submit on another machine, the most
+likely cause is a missing/invalid `.env` file — check that `VITE_SUPABASE_URL`
+and `VITE_SUPABASE_ANON_KEY` are set correctly.
+
+---
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
