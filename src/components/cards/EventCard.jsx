@@ -59,16 +59,16 @@ export default function EventCard({ event: e, index: i, tab }) {
         </h3>
 
         {/* Coordinators */}
-        {e.faculty_coordinator && (
+        {e.FacultyCoordinator && (
           <p className="text-sm text-paper mt-3">
             <span className="font-semibold text-innovation-orange">
               Faculty Coordinator:
             </span>{' '}
-            {e.FacultyoCoordinator}
+            {e.FacultyCoordinator}
           </p>
         )}
 
-        {e.student_coordinator && (
+        {e.StudentCoordinator && (
           <p className="text-sm text-paper mt-1">
             <span className="font-semibold text-innovation-orange">
               Student Coordinator:
@@ -76,7 +76,6 @@ export default function EventCard({ event: e, index: i, tab }) {
             {e.StudentCoordinator}
           </p>
         )}
-
         {/* Description */}
         <p className="text-fog text-sm mt-3">
           {e.description || 'Pending'}

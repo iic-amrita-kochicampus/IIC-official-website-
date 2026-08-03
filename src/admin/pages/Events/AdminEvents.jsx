@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { formatDate } from '../../../utils/helpers';
 
-const emptyForm = { title: '', description: '', event_date: '', event_time: '', venue: '', registration_url: '', status: 'upcoming' };
+const emptyForm = { title: '', description: '', event_date: '', event_time: '', venue: '', registration_url: '', status: 'upcoming', FacultyCoordinator: '', StudentCoordinator: '' };
 
 export default function AdminEvents() {
   const { data: events, loading, refetch } = useSupabase(TABLES.EVENTS, { orderBy: 'event_date', ascending: false });
@@ -81,11 +81,13 @@ export default function AdminEvents() {
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Description</label><textarea {...register('description')} rows={3} className="w-full px-4 py-2.5 admin-input" /></div>
           <div className="grid grid-cols-2 gap-4">
             <div><label className="block text-sm font-medium text-admin-muted mb-1">Event Date</label><input type="date" {...register('event_date', { required: true })} className="w-full px-4 py-2.5 admin-input" /></div>
-            <div><label className="block text-sm font-medium text-admin-muted mb-1">Time</label><input {...register('event_time')} className="w-full px-4 py-2.5 admin-input" placeholder="e.g. 10:00 AM - 4:00 PM" /></div>
+            <div><label className="block text-sm font-medium text-admin-muted mb-1">Time</label><input type="time" {...register('event_time')} className="w-full px-4 py-2.5 admin-input" /></div>
           </div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Venue</label><input {...register('venue')} className="w-full px-4 py-2.5 admin-input" /></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Registration URL</label><input {...register('registration_url')} className="w-full px-4 py-2.5 admin-input" /></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Status</label><select {...register('status')} className="w-full px-4 py-2.5 admin-input"><option value="upcoming">Upcoming</option><option value="past">Past</option></select></div>
+          <div><label className="block text-sm font-medium text-admin-muted mb-1">Faculty Coordinator</label><input {...register('FacultyCoordinator')} className="w-full px-4 py-2.5 admin-input" /></div>
+          <div><label className="block text-sm font-medium text-admin-muted mb-1">Student Coordinator</label><input {...register('StudentCoordinator')} className="w-full px-4 py-2.5 admin-input" /></div>
           <Button type="submit" className="w-full">{editing ? 'Update' : 'Add'} Event</Button>
         </form>
       </Modal>

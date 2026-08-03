@@ -13,7 +13,7 @@ export default function Events() {
   })
 
   const list = (events || []).filter((e) =>
-    tab === 'upcoming' ? e.status === 'Upcoming' : e.status !== 'Upcoming'
+  tab === 'upcoming' ? e.status?.toLowerCase() === 'upcoming' : e.status?.toLowerCase() !== 'upcoming'
   )
 
   return (
