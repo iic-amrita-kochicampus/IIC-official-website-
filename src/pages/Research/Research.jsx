@@ -21,6 +21,13 @@ const CATEGORY = {
   collaboration: 'Collaboration',
 }
 
+// Tolerant matcher: matches exact value, case-insensitive, or partial.
+function matchesCategory(category, target) {
+  const c = (category || '').trim().toLowerCase()
+  const t = target.toLowerCase()
+  return c === t || c.includes(t) || t.includes(c)
+}
+
 export default function Research() {
   const { data: research, loading } = useSupabase(TABLES.RESEARCH, {
     orderBy: 'created_at',
@@ -28,10 +35,10 @@ export default function Research() {
   })
 
   const all = research || []
-  const researchProjects = all.filter((r) => r.category === CATEGORY.project)
-  const publications = all.filter((r) => r.category === CATEGORY.publication)
-  const patents = all.filter((r) => r.category === CATEGORY.patent)
-  const collaborations = all.filter((r) => r.category === CATEGORY.collaboration)
+  const researchProjects = all.filter((r) => matchesCategory(r.category, CATEGORY.project))
+  const publications = all.filter((r) => matchesCategory(r.category, CATEGORY.publication))
+  const patents = all.filter((r) => matchesCategory(r.category, CATEGORY.patent))
+  const collaborations = all.filter((r) => matchesCategory(r.category, CATEGORY.collaboration))
 
   return (
     <div className="relative pt-32 pb-24 max-w-[1400px] mx-auto px-6 md:px-10 overflow-hidden">
@@ -56,6 +63,11 @@ export default function Research() {
                   </div>
                   <p className="text-fog text-sm mt-2">{r.description || 'Pending'}</p>
                   <span className="text-[10px] font-mono uppercase text-fog border border-line rounded-full px-2 py-1 mt-3 inline-block">{r.researcher || 'Pending'}</span>
+                  {r.document_url && (
+                    <a href={r.document_url} target="_blank" rel="noreferrer" data-cursor-hover className="inline-flex items-center gap-2 mt-4 text-sm font-mono text-innovation-blue hover:text-innovation-orange transition-colors">
+                      Open document <span aria-hidden>↗</span>
+                    </a>
+                  )}
                 </div>
               </Reveal>
             ))}
@@ -67,14 +79,16 @@ export default function Research() {
               <Reveal key={p.id} delay={i * 0.05}>
                 <a
                   href={p.document_url || '#'}
+                  target="_blank"
+                  rel="noreferrer"
                   data-cursor-hover
-                  className="glass-card rounded-xl p-5 flex justify-between items-center gap-4 hover:border-innovation-blue/40 transition-colors"
+                  className={`glass-card rounded-xl p-5 flex justify-between items-center gap-4 transition-colors ${p.document_url ? 'hover:border-innovation-blue/40' : 'pointer-events-none'}`}
                 >
                   <div>
                     <div className="text-paper text-sm font-medium">{p.title}</div>
                     <div className="text-fog text-xs font-mono mt-1">{p.researcher || 'Pending'} · {p.mentor || 'Pending'}</div>
                   </div>
-                  <span className="text-innovation-blue text-sm shrink-0">{p.document_url ? '→' : 'Pending'}</span>
+                  <span className={`text-sm shrink-0 ${p.document_url ? 'text-innovation-blue' : 'text-fog'}`}>{p.document_url ? '↗' : 'Pending'}</span>
                 </a>
               </Reveal>
             ))}
@@ -88,6 +102,11 @@ export default function Research() {
                   <div className="glass-card rounded-xl p-5">
                     <div className="text-paper text-sm font-medium">{p.title}</div>
                     <div className="text-fog text-xs font-mono mt-1">{p.status || 'Pending'} · {p.researcher || 'Pending'}</div>
+                    {p.document_url && (
+                      <a href={p.document_url} target="_blank" rel="noreferrer" data-cursor-hover className="inline-flex items-center gap-2 mt-3 text-sm font-mono text-innovation-blue hover:text-innovation-orange transition-colors">
+                        Open document <span aria-hidden>↗</span>
+                      </a>
+                    )}
                   </div>
                 </Reveal>
               ))}
@@ -100,6 +119,11 @@ export default function Research() {
                   <div className="glass-card rounded-xl p-5">
                     <div className="text-paper text-sm font-medium">{c.title}</div>
                     <div className="text-fog text-xs font-mono mt-1">{c.description || 'Pending'}</div>
+                    {c.document_url && (
+                      <a href={c.document_url} target="_blank" rel="noreferrer" data-cursor-hover className="inline-flex items-center gap-2 mt-3 text-sm font-mono text-innovation-blue hover:text-innovation-orange transition-colors">
+                        Open document <span aria-hidden>↗</span>
+                      </a>
+                    )}
                   </div>
                 </Reveal>
               ))}

@@ -7,8 +7,18 @@ import Button from '../../../components/common/Button';
 import Loader from '../../../components/common/Loader';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
+import { RESEARCH_CATEGORIES, RESEARCH_STATUSES } from '../../../utils/helpers';
 
-const emptyForm = { title: '', description: '', researcher: '', mentor: '', category: '', status: 'Ongoing' };
+const emptyForm = {
+  title: '',
+  description: '',
+  researcher: '',
+  mentor: '',
+  category: RESEARCH_CATEGORIES[0],
+  status: 'Ongoing',
+  image_url: '',
+  document_url: '',
+};
 
 export default function AdminResearch() {
   const { data: research, loading, refetch } = useSupabase(TABLES.RESEARCH, { orderBy: 'created_at' });
@@ -53,6 +63,7 @@ export default function AdminResearch() {
               <th className="px-6 py-4 text-sm font-semibold text-admin-muted">Researcher</th>
               <th className="px-6 py-4 text-sm font-semibold text-admin-muted">Status</th>
               <th className="px-6 py-4 text-sm font-semibold text-admin-muted">Category</th>
+              <th className="px-6 py-4 text-sm font-semibold text-admin-muted">Document</th>
               <th className="px-6 py-4 text-sm font-semibold text-admin-muted">Actions</th>
             </tr></thead>
             <tbody className="divide-y divide-admin-border">
@@ -64,6 +75,13 @@ export default function AdminResearch() {
                     <span className={`px-2 py-1 text-xs font-medium rounded-full ${r.status === 'Ongoing' ? 'bg-green-100 text-green-700' : 'bg-admin-surface-2 text-admin-muted'}`}>{r.status}</span>
                   </td>
                   <td className="px-6 py-4 text-sm text-admin-muted">{r.category}</td>
+                  <td className="px-6 py-4 text-sm">
+                    {r.document_url ? (
+                      <a href={r.document_url} target="_blank" rel="noreferrer" className="text-primary hover:underline">View</a>
+                    ) : (
+                      <span className="text-admin-muted">—</span>
+                    )}
+                  </td>
                   <td className="px-6 py-4 flex gap-2">
                     <button onClick={() => openEdit(r)} className="p-2 hover:bg-admin-surface-2 rounded-lg"><Edit2 size={16} className="text-primary" /></button>
                     <button onClick={() => handleDelete(r.id)} className="p-2 hover:bg-red-50 rounded-lg"><Trash2 size={16} className="text-red-500" /></button>
@@ -83,9 +101,21 @@ export default function AdminResearch() {
             <div><label className="block text-sm font-medium text-admin-muted mb-1">Mentor</label><input {...register('mentor')} className="w-full px-4 py-2.5 admin-input" /></div>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div><label className="block text-sm font-medium text-admin-muted mb-1">Category</label><input {...register('category')} className="w-full px-4 py-2.5 admin-input" /></div>
-            <div><label className="block text-sm font-medium text-admin-muted mb-1">Status</label><select {...register('status')} className="w-full px-4 py-2.5 admin-input"><option>Ongoing</option><option>Completed</option><option>Published</option></select></div>
+            <div>
+              <label className="block text-sm font-medium text-admin-muted mb-1">Category</label>
+              <select {...register('category')} className="w-full px-4 py-2.5 admin-input">
+                {RESEARCH_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-admin-muted mb-1">Status</label>
+              <select {...register('status')} className="w-full px-4 py-2.5 admin-input">
+                {RESEARCH_STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+              </select>
+            </div>
           </div>
+          <div><label className="block text-sm font-medium text-admin-muted mb-1">Image URL</label><input {...register('image_url')} placeholder="https://... or uploaded image URL" className="w-full px-4 py-2.5 admin-input" /></div>
+          <div><label className="block text-sm font-medium text-admin-muted mb-1">Document URL</label><input {...register('document_url')} placeholder="https://... link to paper / patent / file" className="w-full px-4 py-2.5 admin-input" /></div>
           <Button type="submit" className="w-full">{editing ? 'Update' : 'Add'} Research</Button>
         </form>
       </Modal>

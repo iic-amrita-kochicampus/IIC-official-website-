@@ -56,3 +56,12 @@ export const YEARS = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
 
 export const IDEA_STATUSES = ['Pending', 'Under Review', 'Approved', 'Rejected'];
 export const QUERY_STATUSES = ['Open', 'In Progress', 'Resolved', 'Closed'];
+
+export const RESEARCH_CATEGORIES = [
+  'Research Project',
+  'Publication',
+  'Patent',
+  'Collaboration',
+];
+
+export const RESEARCH_STATUSES = ['Ongoing', 'Completed', 'Published'];
