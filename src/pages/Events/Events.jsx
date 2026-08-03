@@ -12,9 +12,10 @@ export default function Events() {
     ascending: tab === 'upcoming',
   })
 
-  const list = (events || []).filter((e) =>
-  tab === 'upcoming' ? e.status?.toLowerCase() === 'upcoming' : e.status?.toLowerCase() !== 'upcoming'
-  )
+  const list = (events || []).filter((e) => {
+    const status = (e.status || '').toLowerCase()
+    return tab === 'upcoming' ? status === 'upcoming' || status === 'featured' : status !== 'upcoming' && status !== 'featured'
+  })
 
   return (
     <div className="pt-32 pb-24 max-w-[1400px] mx-auto px-6 md:px-10">

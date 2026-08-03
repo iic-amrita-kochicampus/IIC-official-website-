@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import Reveal from '../common/Reveal'
 import Countdown from '../Countdown/Countdown'
+import Modal from '../common/Modal'
 
 function formatDate(dateStr) {
   if (!dateStr) return 'Pending'
@@ -15,25 +17,34 @@ function formatDate(dateStr) {
 }
 
 export default function EventCard({ event: e, index: i, tab }) {
+  const [isPosterOpen, setIsPosterOpen] = useState(false)
   const targetDate = e.event_date
     ? `${e.event_date}T${e.event_time || '00:00:00'}`
     : null
 
   return (
-    <Reveal
-      delay={i * 0.08}
-      x={i % 2 === 0 ? -40 : 40}
-      y={0}
-      className="glass-card rounded-2xl overflow-hidden"
-    >
+    <>
+      <Reveal
+        delay={i * 0.08}
+        x={i % 2 === 0 ? -40 : 40}
+        y={0}
+        className="glass-card rounded-2xl overflow-hidden"
+      >
       {/* Poster */}
       <div className="aspect-video bg-gradient-to-br from-innovation-blue/10 to-innovation-orange/10 flex items-center justify-center text-fog font-mono text-xs overflow-hidden">
         {e.poster_url ? (
-          <img
-            src={e.poster_url}
-            alt={e.title}
-            className="w-full h-full object-cover"
-          />
+          <button
+            type="button"
+            onClick={() => setIsPosterOpen(true)}
+            className="w-full h-full group"
+            data-cursor-hover
+          >
+            <img
+              src={e.poster_url}
+              alt={e.title}
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          </button>
         ) : (
           'Pending'
         )}
@@ -99,6 +110,21 @@ export default function EventCard({ event: e, index: i, tab }) {
           </a>
         )}
       </div>
-    </Reveal>
+      </Reveal>
+
+      <Modal isOpen={isPosterOpen} onClose={() => setIsPosterOpen(false)} title={e.title || 'Event Poster'} size="xl">
+        {e.poster_url ? (
+          <div className="flex justify-center">
+            <img
+              src={e.poster_url}
+              alt={e.title}
+              className="max-h-[70vh] w-full object-contain rounded-xl"
+            />
+          </div>
+        ) : (
+          <p className="text-fog text-sm">No poster available.</p>
+        )}
+      </Modal>
+    </>
   )
 }

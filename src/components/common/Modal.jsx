@@ -25,11 +25,11 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' })
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 16 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className={`relative w-full ${sizes[size]} admin-card max-h-[90vh] overflow-y-auto admin-scrollbar`}
+            className={`relative w-full ${sizes[size]} rounded-2xl border border-white/10 bg-ink/95 backdrop-blur-xl shadow-[0_20px_80px_rgba(0,0,0,0.45)] max-h-[90vh] overflow-y-auto`}
           >
-            <div className="flex items-center justify-between p-6 border-b border-admin-border sticky top-0 bg-admin-surface/95 backdrop-blur-sm z-10">
-              <h2 className="text-lg font-semibold text-dark">{title}</h2>
-              <button onClick={onClose} className="p-2 hover:bg-admin-surface-2 rounded-lg transition-colors text-admin-muted">
+            <div className="flex items-center justify-between p-6 border-b border-white/10 sticky top-0 bg-ink/90 backdrop-blur-sm z-10">
+              <h2 className="text-lg font-semibold text-paper">{title}</h2>
+              <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-lg transition-colors text-fog">
                 <X size={18} />
               </button>
             </div>

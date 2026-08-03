@@ -8,6 +8,7 @@ import HeroScene from '../../components/three/HeroScene'
 import ScrambleText from '../../components/common/ScrambleText'
 import Reveal from '../../components/common/Reveal'
 import NoticeCard from '../../components/cards/NoticeCard'
+import EventPreviewCard from '../../components/cards/EventPreviewCard'
 import { useSupabase } from '../../hooks/useSupabase'
 import { TABLES } from '../../services/supabase'
 
@@ -30,6 +31,10 @@ export default function Home() {
     filters: { is_active: true },
     orderBy: 'published_date',
     ascending: false,
+  })
+  const { data: events, loading: eventsLoading } = useSupabase(TABLES.EVENTS, {
+    orderBy: 'event_date',
+    ascending: true,
   })
 
   const sortedNotices = [...notices].sort((a, b) => {
@@ -227,7 +232,7 @@ export default function Home() {
           </div>
 
           <div className="mt-12">
-            {noticesLoading ? (
+            {noticesLoading || eventsLoading ? (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[0, 1, 2].map((i) => (
                   <div key={i} className="glass-card rounded-2xl p-5 h-[220px] animate-pulse">
@@ -238,18 +243,23 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-            ) : sortedNotices.length > 0 ? (
+            ) : sortedNotices.length > 0 || featuredEvents.length > 0 ? (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {sortedNotices.slice(0, 6).map((notice, i) => (
+                {sortedNotices.slice(0, 3).map((notice, i) => (
                   <Reveal key={notice.id} delay={(i % 3) * 0.08} y={30}>
                     <NoticeCard notice={notice} />
+                  </Reveal>
+                ))}
+                {events.filter((event) => ['upcoming', 'featured'].includes((event.status || '').toLowerCase()) && event.registration_url).slice(0, 3).map((event, i) => (
+                  <Reveal key={event.id} delay={((i + sortedNotices.length) % 3) * 0.08} y={30}>
+                    <EventPreviewCard event={event} />
                   </Reveal>
                 ))}
               </div>
             ) : (
               <Reveal>
                 <div className="glass-card rounded-2xl p-10 text-center">
-                  <p className="text-fog text-sm font-mono">No notices published yet — check back soon.</p>
+                  <p className="text-fog text-sm font-mono">No notices or featured events published yet — check back soon.</p>
                 </div>
               </Reveal>
             )}

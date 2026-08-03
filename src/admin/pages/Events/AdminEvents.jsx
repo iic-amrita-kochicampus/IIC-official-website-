@@ -63,7 +63,7 @@ export default function AdminEvents() {
                   <td className="px-6 py-4 text-sm text-admin-muted">{e.event_date ? formatDate(e.event_date) : '-'}</td>
                   <td className="px-6 py-4 text-sm text-admin-muted">{e.venue}</td>
                   <td className="px-6 py-4">
-                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${e.status === 'upcoming' ? 'bg-green-100 text-green-700' : 'bg-admin-surface-2 text-admin-muted'}`}>{e.status}</span>
+                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${e.status === 'featured' ? 'bg-purple-100 text-purple-700' : e.status === 'upcoming' ? 'bg-green-100 text-green-700' : 'bg-admin-surface-2 text-admin-muted'}`}>{e.status}</span>
                   </td>
                   <td className="px-6 py-4 flex gap-2">
                     <button onClick={() => openEdit(e)} className="p-2 hover:bg-admin-surface-2 rounded-lg"><Edit2 size={16} className="text-primary" /></button>
@@ -85,7 +85,7 @@ export default function AdminEvents() {
           </div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Venue</label><input {...register('venue')} className="w-full px-4 py-2.5 admin-input" /></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Registration URL</label><input {...register('registration_url')} className="w-full px-4 py-2.5 admin-input" /></div>
-          <div><label className="block text-sm font-medium text-admin-muted mb-1">Status</label><select {...register('status')} className="w-full px-4 py-2.5 admin-input"><option value="upcoming">Upcoming</option><option value="past">Past</option></select></div>
+          <div><label className="block text-sm font-medium text-admin-muted mb-1">Status</label><select {...register('status')} className="w-full px-4 py-2.5 admin-input"><option value="upcoming">Upcoming</option><option value="featured">Featured</option><option value="past">Past</option></select></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Faculty Coordinator</label><input {...register('FacultyCoordinator')} className="w-full px-4 py-2.5 admin-input" /></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Student Coordinator</label><input {...register('StudentCoordinator')} className="w-full px-4 py-2.5 admin-input" /></div>
           <Button type="submit" className="w-full">{editing ? 'Update' : 'Add'} Event</Button>
