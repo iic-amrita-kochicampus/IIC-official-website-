@@ -80,7 +80,8 @@ export default function Login() {
                   <input
                     type="email"
                     {...register('email', { required: 'Email is required' })}
-                    className="admin-input pl-10"
+                    className="admin-input"
+                    style={{ paddingLeft: '2.5rem' }}
                     placeholder="admin@institution.edu"
                   />
                 </div>
@@ -93,7 +94,8 @@ export default function Login() {
                   <input
                     type="password"
                     {...register('password', { required: 'Password is required' })}
-                    className="admin-input pl-10"
+                    className="admin-input"
+                    style={{ paddingLeft: '2.5rem' }}
                     placeholder="Enter password"
                   />
                 </div>

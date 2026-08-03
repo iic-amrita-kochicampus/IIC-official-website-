@@ -74,7 +74,16 @@ export default function AdminCertificates() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Title</label><input {...register('title', { required: true })} className="w-full px-4 py-2.5 admin-input" /></div>
           <div className="grid grid-cols-2 gap-4">
-            <div><label className="block text-sm font-medium text-admin-muted mb-1">Category</label><input {...register('category')} className="w-full px-4 py-2.5 admin-input" placeholder="e.g. Certificate, Award, Rating" /></div>
+            <div><label className="block text-sm font-medium text-admin-muted mb-1">Category</label>
+              <select {...register('category', { required: true })} className="w-full px-4 py-2.5 admin-input">
+                <option value="">Select category</option>
+                <option value="Establishment Order">Establishment Order</option>
+                <option value="Certificate">Certificate</option>
+                <option value="Award">Award</option>
+                <option value="Annual Report">Annual Report</option>
+                <option value="NISP Document">NISP Document</option>
+              </select>
+            </div>
             <div><label className="block text-sm font-medium text-admin-muted mb-1">Year</label><input {...register('year')} className="w-full px-4 py-2.5 admin-input" placeholder="e.g. 2024" /></div>
           </div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Description</label><textarea {...register('description')} rows={2} className="w-full px-4 py-2.5 admin-input" /></div>

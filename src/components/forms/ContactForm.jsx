@@ -6,7 +6,7 @@ const inputClass =
   'w-full bg-transparent border-b border-line focus:border-innovation-blue outline-none py-3 text-paper placeholder:text-fog transition-colors'
 
 export default function ContactForm() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' })
+  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
   const [status, setStatus] = useState('idle')
   const { insert } = useSupabaseInsert(TABLES.CONTACTS)
 
@@ -19,7 +19,7 @@ export default function ContactForm() {
       return
     }
     setStatus('success')
-    setForm({ name: '', email: '', message: '' })
+    setForm({ name: '', email: '', phone: '', message: '' })
   }
 
   return (
@@ -43,6 +43,16 @@ export default function ContactForm() {
           onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
           className={inputClass}
           placeholder="you@college.edu"
+        />
+      </div>
+      <div>
+        <label className="text-xs font-mono uppercase text-fog">Phone</label>
+        <input
+          type="tel"
+          value={form.phone}
+          onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+          className={inputClass}
+          placeholder="Your phone number"
         />
       </div>
       <div>

@@ -19,6 +19,7 @@ export default function IdeaForm() {
       email: data.email,
       department: data.department,
       year: data.year,
+      register_number: data.register_number,
       title: data.title,
       category: data.category,
       problem_statement: data.problem,
@@ -58,6 +59,11 @@ export default function IdeaForm() {
           <input className={inputClass} placeholder="e.g. 2nd Year" {...register('year', { required: 'Required' })} />
           {errors.year && <p className={errorClass}>{errors.year.message}</p>}
         </div>
+        <div>
+          <label className="text-xs font-mono uppercase text-fog">Register No</label>
+          <input className={inputClass} placeholder="e.g. KH.EN.U4BCA00020" {...register('register_number')} />
+          {errors.register_number && <p className={errorClass}>{errors.register_number.message}</p>}
+        </div>
       </div>
 
       <div>
@@ -69,8 +75,8 @@ export default function IdeaForm() {
       <div>
         <label className="text-xs font-mono uppercase text-fog">Category</label>
         <select className={inputClass} style={{ backgroundColor: '#101320', color: '#666e8a' }} {...register('category', { required: 'Required' })}>
-         <option value="" style={{ backgroundColor: '#101320', color: '#f3f5fb' }}>Select a category</option>
-           {IDEA_CATEGORIES.map((c) => <option key={c} value={c} style={{ backgroundColor: '#101320  ', color: '#666e8a' }}>{c}</option>)}
+          <option value="" style={{ backgroundColor: '#101320', color: '#f3f5fb' }}>Select a category</option>
+          {IDEA_CATEGORIES.map((c) => <option key={c} value={c} style={{ backgroundColor: '#101320', color: '#666e8a' }}>{c}</option>)}
         </select>
         {errors.category && <p className={errorClass}>{errors.category.message}</p>}
       </div>

@@ -17,6 +17,7 @@ export default function QueryForm() {
     const { error } = await insert([{
       name: data.name,
       email: data.email,
+      department: data.department,
       category: data.category,
       subject: data.subject,
       message: data.message,
@@ -44,13 +45,18 @@ export default function QueryForm() {
           <input type="email" className={inputClass} placeholder="you@college.edu" {...register('email', { required: 'Required' })} />
           {errors.email && <p className={errorClass}>{errors.email.message}</p>}
         </div>
+        <div>
+          <label className="text-xs font-mono uppercase text-fog">Department</label>
+          <input className={inputClass} placeholder="e.g. Cybersecurity" {...register('department', { required: 'Required' })} />
+          {errors.department && <p className={errorClass}>{errors.department.message}</p>}
+        </div>
       </div>
 
       <div>
         <label className="text-xs font-mono uppercase text-fog">Category</label>
         <select className={inputClass} style={{ backgroundColor: '#101320', color: '#666e8a' }} {...register('category', { required: 'Required' })}>
-         <option value="" style={{ backgroundColor: '#101320', color: '#f3f5fb' }}>Select a category</option>
-           {QUERY_CATEGORIES.map((c) => <option key={c} value={c} style={{ backgroundColor: '#101320  ', color: '#666e8a' }}>{c}</option>)}
+          <option value="" style={{ backgroundColor: '#101320', color: '#f3f5fb' }}>Select a category</option>
+          {QUERY_CATEGORIES.map((c) => <option key={c} value={c} style={{ backgroundColor: '#101320', color: '#666e8a' }}>{c}</option>)}
         </select>
         {errors.category && <p className={errorClass}>{errors.category.message}</p>}
       </div>

@@ -62,7 +62,7 @@ export default function AdminQueries() {
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div><span className="font-semibold">Name:</span> {selected.name}</div>
               <div><span className="font-semibold">Email:</span> {selected.email}</div>
-              <div><span className="font-semibold">Department:</span> {selected.department}</div>
+              <div><span className="font-semibold">Department:</span> {selected.department || 'N/A'}</div>
               <div><span className="font-semibold">Category:</span> {selected.category}</div>
             </div>
             <div><span className="font-semibold">Subject:</span><p className="text-dark font-medium">{selected.subject}</p></div>
