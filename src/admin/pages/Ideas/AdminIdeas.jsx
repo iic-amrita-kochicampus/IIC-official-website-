@@ -59,17 +59,35 @@ export default function AdminIdeas() {
       <Modal isOpen={!!selected} onClose={() => setSelected(null)} title="Review Idea" size="lg">
         {selected && (
           <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4 text-sm">
+<div className="grid grid-cols-2 gap-4 text-sm">
               <div><span className="font-semibold">Name:</span> {selected.name}</div>
               <div><span className="font-semibold">Email:</span> {selected.email}</div>
               <div><span className="font-semibold">Department:</span> {selected.department}</div>
               <div><span className="font-semibold">Year:</span> {selected.year}</div>
               <div><span className="font-semibold">Category:</span> {selected.category}</div>
               <div><span className="font-semibold">Register No:</span> {selected.register_number || 'N/A'}</div>
+              <div><span className="font-semibold">Phone:</span> {selected.phone || 'N/A'}</div>
             </div>
             <div><span className="font-semibold">Problem Statement:</span><p className="text-admin-muted mt-1">{selected.problem_statement}</p></div>
             <div><span className="font-semibold">Proposed Solution:</span><p className="text-admin-muted mt-1">{selected.proposed_solution}</p></div>
             <div><span className="font-semibold">Expected Impact:</span><p className="text-admin-muted mt-1">{selected.expected_impact}</p></div>
+            {selected.attachment_url ? (
+              <div>
+                <span className="font-semibold">Attachment:</span>{' '}
+                <a
+                  href={selected.attachment_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary underline hover:text-primary/80"
+                >
+                  View Attachment
+                </a>
+              </div>
+            ) : (
+              <div className="text-sm text-admin-muted">
+                No attachment was uploaded or the storage bucket is not configured yet.
+              </div>
+            )}
             <div><label className="block text-sm font-medium text-admin-muted mb-1">Admin Remarks</label><textarea value={remark} onChange={(e) => setRemark(e.target.value)} rows={3} className="w-full px-4 py-2.5 admin-input" /></div>
             <div className="flex gap-3">
               <Button variant="success" onClick={() => updateStatus(selected.id, 'Approved')}>Approve</Button>

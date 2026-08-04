@@ -67,6 +67,23 @@ export default function AdminQueries() {
             </div>
             <div><span className="font-semibold">Subject:</span><p className="text-dark font-medium">{selected.subject}</p></div>
             <div><span className="font-semibold">Message:</span><p className="text-admin-muted mt-1">{selected.message}</p></div>
+            {selected.attachment_url ? (
+              <div>
+                <span className="font-semibold">Attachment:</span>{' '}
+                <a
+                  href={selected.attachment_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary underline hover:text-primary/80"
+                >
+                  View Attachment
+                </a>
+              </div>
+            ) : (
+              <div className="text-sm text-admin-muted">
+                No attachment was uploaded or the storage bucket is not configured yet.
+              </div>
+            )}
             <div><label className="block text-sm font-medium text-admin-muted mb-1">Reply</label><textarea value={reply} onChange={(e) => setReply(e.target.value)} rows={3} className="w-full px-4 py-2.5 admin-input" placeholder="Type your reply..." /></div>
             <div className="flex gap-3">
               <Button onClick={() => updateQuery(selected.id, 'Resolved')}>Mark Resolved</Button>

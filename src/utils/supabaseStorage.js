@@ -1,4 +1,5 @@
-import { supabase, BUCKETS } from '../services/supabase';
+import { supabase } from '../services/supabase';
+import { isMissingBucketError } from './storageErrors';
 
 export async function uploadFile(bucket, file, folder = '') {
   const fileExt = file.name.split('.').pop();
@@ -8,7 +9,13 @@ export async function uploadFile(bucket, file, folder = '') {
     .from(bucket)
     .upload(fileName, file, { upsert: true });
 
-  if (error) throw error;
+  if (error) {
+    if (isMissingBucketError(error)) {
+      console.warn(`Supabase storage bucket not found: ${bucket}`);
+      return null;
+    }
+    throw error;
+  }
 
   const { data: urlData } = supabase.storage.from(bucket).getPublicUrl(data.path);
   return urlData.publicUrl;

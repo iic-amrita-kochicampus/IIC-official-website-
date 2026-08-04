@@ -1,6 +1,8 @@
+import { lazy, Suspense } from 'react'
 import Reveal from '../../components/common/Reveal'
 import TextReveal from '../../components/common/TextReveal'
-import AmbientCanvas from '../../components/three/AmbientCanvas'
+
+const AmbientCanvas = lazy(() => import('../../components/three/AmbientCanvas'))
 
 const ACTIVITIES = [
   'Hosting workshops, hackathons, and speaker sessions',
@@ -12,7 +14,9 @@ const ACTIVITIES = [
 export default function About() {
   return (
     <div className="relative pt-32 pb-24 max-w-[1400px] mx-auto px-6 md:px-10 overflow-hidden">
-      <AmbientCanvas className="-z-10" color="#2b6fff" count={400} />
+      <Suspense fallback={null}>
+        <AmbientCanvas className="-z-10" color="#2b6fff" count={400} />
+      </Suspense>
       <Reveal>
         <span className="eyebrow">About</span>
       </Reveal>

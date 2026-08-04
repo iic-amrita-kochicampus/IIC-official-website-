@@ -27,15 +27,15 @@ export const TABLES = {
 };
 
 export const BUCKETS = {
-  LEADERSHIP_IMAGES: 'leadership-images',
-  MEMBER_IMAGES: 'member-images',
-  EVENT_POSTERS: 'event-posters',
-  EVENT_GALLERY: 'event-gallery',
-  AMBASSADOR_IMAGES: 'ambassador-images',
-  PROJECT_IMAGES: 'project-images',
-  RESEARCH_FILES: 'research-files',
-  CERTIFICATES: 'certificates',
-  IDEA_ATTACHMENTS: 'idea-attachments',
-  QUERY_ATTACHMENTS: 'query-attachments',
-  WEBSITE_ASSETS: 'website-assets',
+  LEADERSHIP_IMAGES: import.meta.env.VITE_LEADERSHIP_IMAGES_BUCKET || 'leadership-images',
+  MEMBER_IMAGES: import.meta.env.VITE_MEMBER_IMAGES_BUCKET || 'member-images',
+  EVENT_POSTERS: import.meta.env.VITE_EVENT_POSTERS_BUCKET || 'event-posters',
+  EVENT_GALLERY: import.meta.env.VITE_EVENT_GALLERY_BUCKET || 'event-gallery',
+  AMBASSADOR_IMAGES: import.meta.env.VITE_AMBASSADOR_IMAGES_BUCKET || 'ambassador-images',
+  PROJECT_IMAGES: import.meta.env.VITE_PROJECT_IMAGES_BUCKET || 'project-images',
+  RESEARCH_FILES: import.meta.env.VITE_RESEARCH_FILES_BUCKET || 'research-files',
+  CERTIFICATES: import.meta.env.VITE_CERTIFICATES_BUCKET || 'certificates',
+  IDEA_ATTACHMENTS: import.meta.env.VITE_IDEA_ATTACHMENTS_BUCKET || 'idea-attachments',
+  QUERY_ATTACHMENTS: import.meta.env.VITE_QUERY_ATTACHMENTS_BUCKET || 'query-attachments',
+  WEBSITE_ASSETS: import.meta.env.VITE_WEBSITE_ASSETS_BUCKET || 'website-assets',
 };

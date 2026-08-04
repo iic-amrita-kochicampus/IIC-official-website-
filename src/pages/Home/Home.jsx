@@ -2,15 +2,16 @@ import Logo from '../../components/common/Logo'
 import iicLogo from '../../assets/logos/iic-logo.png'
 import MaskReveal from '../../components/common/MaskReveal'
 import TextReveal from '../../components/common/TextReveal'
-import { useRef } from 'react'
+import { lazy, Suspense, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
-import HeroScene from '../../components/three/HeroScene'
 import ScrambleText from '../../components/common/ScrambleText'
 import Reveal from '../../components/common/Reveal'
 import NoticeCard from '../../components/cards/NoticeCard'
 import EventPreviewCard from '../../components/cards/EventPreviewCard'
 import { useSupabase } from '../../hooks/useSupabase'
 import { TABLES } from '../../services/supabase'
+
+const HeroScene = lazy(() => import('../../components/three/HeroScene'))
 
 const CERTS = [
   { org: 'MoE Innovation Cell', note: 'Established Council', href: '/establishment' },
@@ -49,7 +50,9 @@ export default function Home() {
       <section ref={heroRef} className="relative h-[100svh] min-h-[680px] w-full overflow-hidden bg-void bg-grid">
         <div className="absolute inset-0 bg-gradient-to-b from-void via-transparent to-void z-[1] pointer-events-none" />
         <div className="absolute inset-0">
-          <HeroScene sectionRef={heroRef} />
+          <Suspense fallback={null}>
+            <HeroScene sectionRef={heroRef} />
+          </Suspense>
         </div>
 
         {/* Ambient glow blobs */}

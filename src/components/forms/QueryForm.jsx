@@ -1,19 +1,24 @@
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { useSupabaseInsert } from '../../hooks/useSupabase'
-import { TABLES } from '../../services/supabase'
+import { TABLES, BUCKETS } from '../../services/supabase'
+import { uploadFile } from '../../utils/supabaseStorage'
+import { QUERY_CATEGORIES } from '../../utils/helpers'
 
 const inputClass =
   'w-full bg-transparent border-b border-line focus:border-innovation-blue outline-none py-3 text-paper placeholder:text-fog transition-colors'
 const errorClass = 'text-xs text-accent-red mt-1 font-mono'
-
-const QUERY_CATEGORIES = ['Startup', 'IPR', 'Innovation', 'Events', 'General']
 
 export default function QueryForm() {
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm()
   const { insert } = useSupabaseInsert(TABLES.QUERIES)
 
   const onSubmit = async (data) => {
+    let attachment_url = null
+    if (data.attachment?.[0]) {
+      attachment_url = await uploadFile(BUCKETS.QUERY_ATTACHMENTS, data.attachment[0], 'queries')
+    }
+
     const { error } = await insert([{
       name: data.name,
       email: data.email,
@@ -21,6 +26,8 @@ export default function QueryForm() {
       category: data.category,
       subject: data.subject,
       message: data.message,
+      attachment_url,
+      status: 'Open',
     }])
 
     if (error) {

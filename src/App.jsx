@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -8,20 +8,21 @@ import Footer from './components/layout/Footer'
 import CustomCursor from './components/common/CustomCursor'
 import Preloader from './components/common/Preloader'
 import RouteTransition from './components/common/RouteTransition'
+import Loader from './components/common/Loader'
 import useLenis from './hooks/useLenis'
 
-import AdminRoutes from './admin/routes/AdminRoutes'
+const AdminRoutes = lazy(() => import('./admin/routes/AdminRoutes'))
 
-import Home from './pages/Home/Home'
-import About from './pages/About/About'
-import Leadership from './pages/Leadership/Leadership'
-import Events from './pages/Events/Events'
-import InnovationAmbassadors from './pages/InnovationAmbassadors/InnovationAmbassadors'
-import Research from './pages/Research/Research'
-import Projects from './pages/Projects/Projects'
-import Establishment from './pages/Establishment/Establishment'
-import Ideas from './pages/Ideas/Ideas'
-import Contact from './pages/Contact/Contact'
+const Home = lazy(() => import('./pages/Home/Home'))
+const About = lazy(() => import('./pages/About/About'))
+const Leadership = lazy(() => import('./pages/Leadership/Leadership'))
+const Events = lazy(() => import('./pages/Events/Events'))
+const InnovationAmbassadors = lazy(() => import('./pages/InnovationAmbassadors/InnovationAmbassadors'))
+const Research = lazy(() => import('./pages/Research/Research'))
+const Projects = lazy(() => import('./pages/Projects/Projects'))
+const Establishment = lazy(() => import('./pages/Establishment/Establishment'))
+const Ideas = lazy(() => import('./pages/Ideas/Ideas'))
+const Contact = lazy(() => import('./pages/Contact/Contact'))
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -47,19 +48,27 @@ export default function App() {
         {!isAdminRoute && <Navbar />}
         <ScrollToTop />
         <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/team" element={<Leadership />} />
-            <Route path="/events" element={<Events />} />
-            <Route path="/ambassadors" element={<InnovationAmbassadors />} />
-            <Route path="/research" element={<Research />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/establishment" element={<Establishment />} />
-            <Route path="/ideas-queries" element={<Ideas />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/admin/*" element={<AdminRoutes />} />
-          </Routes>
+          <Suspense
+            fallback={
+              <div className="min-h-[60vh] flex items-center justify-center">
+                <Loader />
+              </div>
+            }
+          >
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/team" element={<Leadership />} />
+              <Route path="/events" element={<Events />} />
+              <Route path="/ambassadors" element={<InnovationAmbassadors />} />
+              <Route path="/research" element={<Research />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/establishment" element={<Establishment />} />
+              <Route path="/ideas-queries" element={<Ideas />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/admin/*" element={<AdminRoutes />} />
+            </Routes>
+          </Suspense>
         </main>
         {!isAdminRoute && <Footer />}
         <ToastContainer

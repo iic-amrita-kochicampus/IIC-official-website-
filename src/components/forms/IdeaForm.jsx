@@ -1,22 +1,28 @@
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { useSupabaseInsert } from '../../hooks/useSupabase'
-import { TABLES } from '../../services/supabase'
+import { TABLES, BUCKETS } from '../../services/supabase'
+import { uploadFile } from '../../utils/supabaseStorage'
+import { IDEA_CATEGORIES } from '../../utils/helpers'
 
 const inputClass =
   'w-full bg-transparent border-b border-line focus:border-innovation-blue outline-none py-3 text-paper placeholder:text-fog transition-colors'
 const errorClass = 'text-xs text-accent-red mt-1 font-mono'
-
-const IDEA_CATEGORIES = ['Product', 'Process', 'Research', 'Social Impact', 'Other']
 
 export default function IdeaForm() {
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm()
   const { insert } = useSupabaseInsert(TABLES.IDEAS)
 
   const onSubmit = async (data) => {
+    let attachment_url = null
+    if (data.attachment?.[0]) {
+      attachment_url = await uploadFile(BUCKETS.IDEA_ATTACHMENTS, data.attachment[0], 'ideas')
+    }
+
     const { error } = await insert([{
       name: data.name,
       email: data.email,
+      phone: data.phone,
       department: data.department,
       year: data.year,
       register_number: data.register_number,
@@ -25,6 +31,8 @@ export default function IdeaForm() {
       problem_statement: data.problem,
       proposed_solution: data.solution,
       expected_impact: data.impact,
+      attachment_url,
+      status: 'Pending',
     }])
 
     if (error) {
@@ -59,10 +67,14 @@ export default function IdeaForm() {
           <input className={inputClass} placeholder="e.g. 2nd Year" {...register('year', { required: 'Required' })} />
           {errors.year && <p className={errorClass}>{errors.year.message}</p>}
         </div>
-        <div>
+<div>
           <label className="text-xs font-mono uppercase text-fog">Register No</label>
           <input className={inputClass} placeholder="e.g. KH.EN.U4BCA00020" {...register('register_number')} />
           {errors.register_number && <p className={errorClass}>{errors.register_number.message}</p>}
+        </div>
+        <div>
+          <label className="text-xs font-mono uppercase text-fog">Phone</label>
+          <input type="tel" className={inputClass} placeholder="Your phone number" {...register('phone')} />
         </div>
       </div>
 
