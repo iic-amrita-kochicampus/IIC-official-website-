@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
 import { useSupabase, useSupabaseInsert, useSupabaseUpdate, useSupabaseDelete } from '../../../hooks/useSupabase';
-import { TABLES } from '../../../services/supabase';
+import { TABLES, BUCKETS } from '../../../services/supabase';
+import { uploadFile } from '../../../utils/supabaseStorage';
 import Modal from '../../../components/common/Modal';
 import Button from '../../../components/common/Button';
 import Loader from '../../../components/common/Loader';
@@ -9,7 +10,7 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { formatDate } from '../../../utils/helpers';
 
-const emptyForm = { title: '', description: '', event_date: '', event_time: '', venue: '', registration_url: '', status: 'upcoming', FacultyCoordinator: '', StudentCoordinator: '' };
+const emptyForm = { title: '', description: '', event_date: '', event_time: '', venue: '', registration_url: '', status: 'upcoming', FacultyCoordinator: '', StudentCoordinator: '', poster_url: '' };
 
 export default function AdminEvents() {
   const { data: events, loading, refetch } = useSupabase(TABLES.EVENTS, { orderBy: 'event_date', ascending: false });
@@ -24,11 +25,20 @@ export default function AdminEvents() {
   const openEdit = (e) => { setEditing(e); reset(e); setModalOpen(true); };
 
   const onSubmit = async (data) => {
+    const payload = { ...data };
+    const posterFile = payload.poster_file?.[0];
+    delete payload.poster_file;
+
+    if (posterFile) {
+      const url = await uploadFile(BUCKETS.EVENT_POSTERS, posterFile, 'events');
+      if (url) payload.poster_url = url;
+    }
+
     if (editing) {
-      const { error } = await update(editing.id, data);
+      const { error } = await update(editing.id, payload);
       if (error) toast.error(error.message); else { toast.success('Updated!'); refetch(); }
     } else {
-      const { error } = await insert(data);
+      const { error } = await insert(payload);
       if (error) toast.error(error.message); else { toast.success('Added!'); refetch(); }
     }
     setModalOpen(false);
@@ -86,6 +96,8 @@ export default function AdminEvents() {
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Venue</label><input {...register('venue')} className="w-full px-4 py-2.5 admin-input" /></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Registration URL</label><input {...register('registration_url')} className="w-full px-4 py-2.5 admin-input" /></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Status</label><select {...register('status')} className="w-full px-4 py-2.5 admin-input"><option value="upcoming">Upcoming</option><option value="featured">Featured</option><option value="past">Past</option></select></div>
+          <div><label className="block text-sm font-medium text-admin-muted mb-1">Poster URL</label><input {...register('poster_url')} className="w-full px-4 py-2.5 admin-input" placeholder="https://..." /></div>
+          <div><label className="block text-sm font-medium text-admin-muted mb-1">Upload Poster</label><input type="file" {...register('poster_file')} className="w-full px-4 py-2.5 admin-input file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:bg-primary/10 file:text-primary file:font-medium" /></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Faculty Coordinator</label><input {...register('FacultyCoordinator')} className="w-full px-4 py-2.5 admin-input" /></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Student Coordinator</label><input {...register('StudentCoordinator')} className="w-full px-4 py-2.5 admin-input" /></div>
           <Button type="submit" className="w-full">{editing ? 'Update' : 'Add'} Event</Button>

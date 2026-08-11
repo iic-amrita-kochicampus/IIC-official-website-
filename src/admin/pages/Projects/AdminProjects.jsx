@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
 import { useSupabase, useSupabaseInsert, useSupabaseUpdate, useSupabaseDelete } from '../../../hooks/useSupabase';
-import { TABLES } from '../../../services/supabase';
+import { TABLES, BUCKETS } from '../../../services/supabase';
+import { uploadFile } from '../../../utils/supabaseStorage';
 import Modal from '../../../components/common/Modal';
 import Button from '../../../components/common/Button';
 import Loader from '../../../components/common/Loader';
@@ -9,7 +10,7 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { PROJECT_CATEGORIES } from '../../../utils/helpers';
 
-const emptyForm = { title: '', description: '', team_lead: '', team_members: '', mentor: '', technologies: [], category: 'Other', status: 'In Progress', progress: 0, project_url: '' };
+const emptyForm = { title: '', description: '', team_lead: '', team_members: '', mentor: '', technologies: [], category: 'Other', status: 'In Progress', progress: 0, project_url: '', image_url: '' };
 
 export default function AdminProjects() {
   const { data: projects, loading, refetch } = useSupabase(TABLES.PROJECTS, { orderBy: 'created_at' });
@@ -27,11 +28,20 @@ export default function AdminProjects() {
     if (data.technologies && typeof data.technologies === 'string') {
       data.technologies = data.technologies.split(',').map((t) => t.trim()).filter(Boolean);
     }
+    const payload = { ...data };
+    const imageFile = payload.image_file?.[0];
+    delete payload.image_file;
+
+    if (imageFile) {
+      const url = await uploadFile(BUCKETS.PROJECT_IMAGES, imageFile, 'projects');
+      if (url) payload.image_url = url;
+    }
+
     if (editing) {
-      const { error } = await update(editing.id, data);
+      const { error } = await update(editing.id, payload);
       if (error) toast.error(error.message); else { toast.success('Updated!'); refetch(); }
     } else {
-      const { error } = await insert(data);
+      const { error } = await insert(payload);
       if (error) toast.error(error.message); else { toast.success('Added!'); refetch(); }
     }
     setModalOpen(false);
@@ -84,6 +94,8 @@ export default function AdminProjects() {
             <div><label className="block text-sm font-medium text-admin-muted mb-1">Team Lead</label><input {...register('team_lead')} className="w-full px-4 py-2.5 admin-input" /></div>
             <div><label className="block text-sm font-medium text-admin-muted mb-1">Mentor</label><input {...register('mentor')} className="w-full px-4 py-2.5 admin-input" /></div>
           </div>
+          <div><label className="block text-sm font-medium text-admin-muted mb-1">Photo URL</label><input {...register('image_url')} className="w-full px-4 py-2.5 admin-input" placeholder="https://..." /></div>
+          <div><label className="block text-sm font-medium text-admin-muted mb-1">Upload Photo</label><input type="file" {...register('image_file')} className="w-full px-4 py-2.5 admin-input file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:bg-primary/10 file:text-primary file:font-medium" /></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Team Members (comma-separated)</label><input {...register('team_members')} className="w-full px-4 py-2.5 admin-input" /></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Technologies (comma-separated)</label><input {...register('technologies')} className="w-full px-4 py-2.5 admin-input" /></div>
           <div className="grid grid-cols-3 gap-4">

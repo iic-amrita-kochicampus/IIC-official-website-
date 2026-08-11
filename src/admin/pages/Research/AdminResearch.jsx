@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
 import { useSupabase, useSupabaseInsert, useSupabaseUpdate, useSupabaseDelete } from '../../../hooks/useSupabase';
-import { TABLES } from '../../../services/supabase';
+import { TABLES, BUCKETS } from '../../../services/supabase';
+import { uploadFile } from '../../../utils/supabaseStorage';
 import Modal from '../../../components/common/Modal';
 import Button from '../../../components/common/Button';
 import Loader from '../../../components/common/Loader';
@@ -33,11 +34,26 @@ export default function AdminResearch() {
   const openEdit = (r) => { setEditing(r); reset(r); setModalOpen(true); };
 
   const onSubmit = async (data) => {
+    const payload = { ...data };
+    const imageFile = payload.image_file?.[0];
+    const documentFile = payload.document_file?.[0];
+    delete payload.image_file;
+    delete payload.document_file;
+
+    if (imageFile) {
+      const url = await uploadFile(BUCKETS.RESEARCH_FILES, imageFile, 'research-images');
+      if (url) payload.image_url = url;
+    }
+    if (documentFile) {
+      const url = await uploadFile(BUCKETS.RESEARCH_FILES, documentFile, 'research-documents');
+      if (url) payload.document_url = url;
+    }
+
     if (editing) {
-      const { error } = await update(editing.id, data);
+      const { error } = await update(editing.id, payload);
       if (error) toast.error(error.message); else { toast.success('Updated!'); refetch(); }
     } else {
-      const { error } = await insert(data);
+      const { error } = await insert(payload);
       if (error) toast.error(error.message); else { toast.success('Added!'); refetch(); }
     }
     setModalOpen(false);
@@ -115,7 +131,9 @@ export default function AdminResearch() {
             </div>
           </div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Image URL</label><input {...register('image_url')} placeholder="https://... or uploaded image URL" className="w-full px-4 py-2.5 admin-input" /></div>
+          <div><label className="block text-sm font-medium text-admin-muted mb-1">Upload Image</label><input type="file" {...register('image_file')} className="w-full px-4 py-2.5 admin-input file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:bg-primary/10 file:text-primary file:font-medium" /></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Document URL</label><input {...register('document_url')} placeholder="https://... link to paper / patent / file" className="w-full px-4 py-2.5 admin-input" /></div>
+          <div><label className="block text-sm font-medium text-admin-muted mb-1">Upload Document</label><input type="file" {...register('document_file')} className="w-full px-4 py-2.5 admin-input file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:bg-primary/10 file:text-primary file:font-medium" /></div>
           <Button type="submit" className="w-full">{editing ? 'Update' : 'Add'} Research</Button>
         </form>
       </Modal>

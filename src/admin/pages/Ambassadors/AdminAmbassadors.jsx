@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
 import { useSupabase, useSupabaseInsert, useSupabaseUpdate, useSupabaseDelete } from '../../../hooks/useSupabase';
-import { TABLES } from '../../../services/supabase';
+import { TABLES, BUCKETS } from '../../../services/supabase';
+import { uploadFile } from '../../../utils/supabaseStorage';
 import Modal from '../../../components/common/Modal';
 import Button from '../../../components/common/Button';
 import Loader from '../../../components/common/Loader';
@@ -9,7 +10,7 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { DEPARTMENTS } from '../../../utils/helpers';
 
-const emptyForm = { name: '', department: '', position: 'Innovation Ambassador', responsibilities: '', achievements: '', year: '', is_active: true };
+const emptyForm = { name: '', department: '', position: 'Innovation Ambassador', responsibilities: '', achievements: '', year: '', is_active: true, image_url: '' };
 
 export default function AdminAmbassadors() {
   const { data: ambassadors, loading, refetch } = useSupabase(TABLES.AMBASSADORS, { orderBy: 'created_at' });
@@ -24,11 +25,20 @@ export default function AdminAmbassadors() {
   const openEdit = (a) => { setEditing(a); reset(a); setModalOpen(true); };
 
   const onSubmit = async (data) => {
+    const payload = { ...data };
+    const imageFile = payload.image_file?.[0];
+    delete payload.image_file;
+
+    if (imageFile) {
+      const url = await uploadFile(BUCKETS.AMBASSADOR_IMAGES, imageFile, 'ambassadors');
+      if (url) payload.image_url = url;
+    }
+
     if (editing) {
-      const { error } = await update(editing.id, data);
+      const { error } = await update(editing.id, payload);
       if (error) toast.error(error.message); else { toast.success('Updated!'); refetch(); }
     } else {
-      const { error } = await insert(data);
+      const { error } = await insert(payload);
       if (error) toast.error(error.message); else { toast.success('Added!'); refetch(); }
     }
     setModalOpen(false);
@@ -80,6 +90,8 @@ export default function AdminAmbassadors() {
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={editing ? 'Edit Ambassador' : 'Add Ambassador'}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Name</label><input {...register('name', { required: true })} className="w-full px-4 py-2.5 admin-input" /></div>
+          <div><label className="block text-sm font-medium text-admin-muted mb-1">Photo URL</label><input {...register('image_url')} className="w-full px-4 py-2.5 admin-input" placeholder="https://..." /></div>
+          <div><label className="block text-sm font-medium text-admin-muted mb-1">Upload Photo</label><input type="file" {...register('image_file')} className="w-full px-4 py-2.5 admin-input file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:bg-primary/10 file:text-primary file:font-medium" /></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Department</label><select {...register('department', { required: true })} className="w-full px-4 py-2.5 admin-input"><option value="">Select</option>{DEPARTMENTS.map((d) => <option key={d} value={d}>{d}</option>)}</select></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Position</label><input {...register('position')} className="w-full px-4 py-2.5 admin-input" /></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Year/Batch</label><input {...register('year')} className="w-full px-4 py-2.5 admin-input" /></div>

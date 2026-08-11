@@ -37,5 +37,6 @@ export const BUCKETS = {
   CERTIFICATES: import.meta.env.VITE_CERTIFICATES_BUCKET || 'certificates',
   IDEA_ATTACHMENTS: import.meta.env.VITE_IDEA_ATTACHMENTS_BUCKET || 'idea-attachments',
   QUERY_ATTACHMENTS: import.meta.env.VITE_QUERY_ATTACHMENTS_BUCKET || 'query-attachments',
+  NOTICE_ATTACHMENTS: import.meta.env.VITE_NOTICE_ATTACHMENTS_BUCKET || 'notice-attachments',
   WEBSITE_ASSETS: import.meta.env.VITE_WEBSITE_ASSETS_BUCKET || 'website-assets',
 };

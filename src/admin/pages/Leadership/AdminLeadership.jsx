@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
 import { useSupabase, useSupabaseInsert, useSupabaseUpdate, useSupabaseDelete } from '../../../hooks/useSupabase';
-import { TABLES } from '../../../services/supabase';
+import { TABLES, BUCKETS } from '../../../services/supabase';
+import { uploadFile } from '../../../utils/supabaseStorage';
 import Modal from '../../../components/common/Modal';
 import Button from '../../../components/common/Button';
 import Loader from '../../../components/common/Loader';
@@ -23,11 +24,20 @@ export default function AdminLeadership() {
   const openEdit = (leader) => { setEditing(leader); reset(leader); setModalOpen(true); };
 
   const onSubmit = async (data) => {
+    const payload = { ...data };
+    const imageFile = payload.image_file?.[0];
+    delete payload.image_file;
+
+    if (imageFile) {
+      const url = await uploadFile(BUCKETS.LEADERSHIP_IMAGES, imageFile, 'leadership');
+      if (url) payload.image_url = url;
+    }
+
     if (editing) {
-      const { error } = await update(editing.id, data);
+      const { error } = await update(editing.id, payload);
       if (error) toast.error(error.message); else { toast.success('Updated!'); refetch(); }
     } else {
-      const { error } = await insert(data);
+      const { error } = await insert(payload);
       if (error) toast.error(error.message); else { toast.success('Added!'); refetch(); }
     }
     setModalOpen(false);
@@ -81,6 +91,8 @@ export default function AdminLeadership() {
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Name</label><input {...register('name', { required: true })} className="w-full px-4 py-2.5 admin-input" /></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Position</label><input {...register('position', { required: true })} className="w-full px-4 py-2.5 admin-input" /></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Department</label><input {...register('department')} className="w-full px-4 py-2.5 admin-input" /></div>
+          <div><label className="block text-sm font-medium text-admin-muted mb-1">Photo URL</label><input {...register('image_url')} className="w-full px-4 py-2.5 admin-input" placeholder="https://..." /></div>
+          <div><label className="block text-sm font-medium text-admin-muted mb-1">Upload Photo</label><input type="file" {...register('image_file')} className="w-full px-4 py-2.5 admin-input file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:bg-primary/10 file:text-primary file:font-medium" /></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Email</label><input type="email" {...register('email')} className="w-full px-4 py-2.5 admin-input" /></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">LinkedIn</label><input {...register('linkedin')} className="w-full px-4 py-2.5 admin-input" /></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Display Order</label><input type="number" {...register('display_order')} className="w-full px-4 py-2.5 admin-input" /></div>

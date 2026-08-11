@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
 import { useSupabase, useSupabaseInsert, useSupabaseUpdate, useSupabaseDelete } from '../../../hooks/useSupabase';
-import { TABLES } from '../../../services/supabase';
+import { TABLES, BUCKETS } from '../../../services/supabase';
+import { uploadFile } from '../../../utils/supabaseStorage';
 import Modal from '../../../components/common/Modal';
 import Button from '../../../components/common/Button';
 import Loader from '../../../components/common/Loader';
@@ -9,7 +10,7 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { NOTICE_CATEGORIES, formatDate } from '../../../utils/helpers';
 
-const emptyForm = { title: '', description: '', category: 'General', published_date: new Date().toISOString().split('T')[0], deadline: '', external_link: '', is_pinned: false, is_active: true };
+const emptyForm = { title: '', description: '', category: 'General', published_date: new Date().toISOString().split('T')[0], deadline: '', external_link: '', is_pinned: false, is_active: true, attachment_url: '' };
 
 const normalizeNoticeData = (data) => ({
   ...data,
@@ -30,7 +31,16 @@ export default function AdminNotices() {
   const openEdit = (n) => { setEditing(n); reset(n); setModalOpen(true); };
 
   const onSubmit = async (data) => {
-    const normalizedData = normalizeNoticeData(data);
+    const payload = { ...data };
+    const attachmentFile = payload.attachment_file?.[0];
+    delete payload.attachment_file;
+
+    if (attachmentFile) {
+      const url = await uploadFile(BUCKETS.NOTICE_ATTACHMENTS, attachmentFile, 'notices');
+      if (url) payload.attachment_url = url;
+    }
+
+    const normalizedData = normalizeNoticeData(payload);
 
     if (editing) {
       const { error } = await update(editing.id, normalizedData);
@@ -95,6 +105,8 @@ export default function AdminNotices() {
             <p className="mt-1 text-xs text-admin-muted">Leave this empty if the notice does not have a deadline.</p>
           </div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">External Link</label><input {...register('external_link')} className="w-full px-4 py-2.5 admin-input" /></div>
+          <div><label className="block text-sm font-medium text-admin-muted mb-1">Attachment URL</label><input {...register('attachment_url')} className="w-full px-4 py-2.5 admin-input" placeholder="https://..." /></div>
+          <div><label className="block text-sm font-medium text-admin-muted mb-1">Upload Attachment</label><input type="file" {...register('attachment_file')} className="w-full px-4 py-2.5 admin-input file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:bg-primary/10 file:text-primary file:font-medium" /></div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2"><input type="checkbox" {...register('is_pinned')} className="w-4 h-4" /><label className="text-sm text-admin-muted">Pinned</label></div>
             <div className="flex items-center gap-2"><input type="checkbox" {...register('is_active')} className="w-4 h-4" /><label className="text-sm text-admin-muted">Active</label></div>
