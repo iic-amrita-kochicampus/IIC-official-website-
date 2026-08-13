@@ -43,7 +43,7 @@ export default function Home() {
     if (!a.is_pinned && b.is_pinned) return 1
     return 0
   })
-
+  const featuredEvents = events.filter((event) => ['upcoming', 'featured'].includes((event.status || '').toLowerCase()) && event.registration_url)
   return (
     <>
       {/* HERO */}
