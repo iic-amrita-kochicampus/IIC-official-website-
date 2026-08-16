@@ -24,7 +24,13 @@ export default function Settings() {
   useEffect(() => {
     const loadSettings = async () => {
       const { data } = await supabase.from(TABLES.SETTINGS).select('*').limit(1).single();
-      if (data) setSettings(data);
+      if (data) {
+        // Ensure null values are converted to empty strings for form inputs
+        const cleanedData = Object.fromEntries(
+          Object.entries(data).map(([key, value]) => [key, value ?? ''])
+        );
+        setSettings(cleanedData);
+      }
       setLoading(false);
     };
     loadSettings();
@@ -38,7 +44,11 @@ export default function Settings() {
     setSaving(true);
     const { error } = await supabase.from(TABLES.SETTINGS).upsert(settings, { onConflict: 'id' });
     if (error) toast.error(error.message);
-    else toast.success('Settings saved!');
+    else {
+      toast.success('Settings saved!');
+      // Dispatch event to notify other components (like Footer) to refresh
+      window.dispatchEvent(new CustomEvent('settings-updated'));
+    }
     setSaving(false);
   };
 
