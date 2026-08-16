@@ -1,6 +1,5 @@
 import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
-import * as THREE from 'three'
 
 // Ambient depth layer of drifting points — reusable behind any section's
 // hero to raise the 3D presence across the site without a heavy scene.

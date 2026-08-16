@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import gsap from 'gsap';
 import { Lock, Mail, Lightbulb, ArrowRight } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/useAuth';
 import Button from '../../components/common/Button';
 
 export default function Login() {

@@ -30,7 +30,7 @@ export default function AdminAmbassadors() {
     delete payload.image_file;
 
     if (imageFile) {
-      const url = await uploadFile(BUCKETS.AMBASSADOR_IMAGES, imageFile, 'ambassadors');
+      const url = await uploadFile(BUCKETS.AMBASSADOR_IMAGES, imageFile, '', null, payload.name);
       if (url) payload.image_url = url;
     }
 

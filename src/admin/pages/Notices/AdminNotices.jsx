@@ -36,7 +36,7 @@ export default function AdminNotices() {
     delete payload.attachment_file;
 
     if (attachmentFile) {
-      const url = await uploadFile(BUCKETS.NOTICE_ATTACHMENTS, attachmentFile, 'notices');
+      const url = await uploadFile(BUCKETS.NOTICE_ATTACHMENTS, attachmentFile, 'notices', null, payload.title);
       if (url) payload.attachment_url = url;
     }
 

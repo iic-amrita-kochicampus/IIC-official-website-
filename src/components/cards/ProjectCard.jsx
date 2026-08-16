@@ -1,8 +1,9 @@
 import Reveal from '../common/Reveal'
 
 export default function ProjectCard({ project: p, index: i }) {
+  // Handle both string (comma-separated) and array formats
   const technologies = p.technologies
-    ? p.technologies.split(',').map((t) => t.trim()).filter(Boolean)
+    ? (Array.isArray(p.technologies) ? p.technologies : p.technologies.split(',').map((t) => t.trim()).filter(Boolean))
     : []
 
   return (

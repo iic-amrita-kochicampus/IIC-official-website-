@@ -5,7 +5,7 @@ import Modal from '../../../components/common/Modal';
 import Button from '../../../components/common/Button';
 import Loader from '../../../components/common/Loader';
 import { toast } from 'react-toastify';
-import { formatDate, QUERY_STATUSES } from '../../../utils/helpers';
+import { formatDate } from '../../../utils/helpers';
 
 export default function AdminQueries() {
   const { data: queries, loading, refetch } = useSupabase(TABLES.QUERIES, { orderBy: 'created_at' });

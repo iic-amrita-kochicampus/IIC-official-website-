@@ -69,7 +69,9 @@ export default function AdminCertificates() {
       const url = await uploadFile(
         BUCKETS.CERTIFICATES,
         documentFile,
-        'certificates-documents'
+        '',
+        null,
+        payload.title
       )
 
       if (url) {
@@ -81,7 +83,9 @@ export default function AdminCertificates() {
       const url = await uploadFile(
         BUCKETS.CERTIFICATES,
         thumbnailFile,
-        'certificates-thumbnails'
+        '',
+        null,
+        payload.title
       )
 
       if (url) {

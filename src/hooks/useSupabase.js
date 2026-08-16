@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { supabase } from '../services/supabase';
 
 export function useSupabase(table, options = {}) {
@@ -8,7 +8,11 @@ export function useSupabase(table, options = {}) {
 
   const { filters = {}, orderBy = 'created_at', ascending = false, select = '*', limit } = options;
 
-  const fetchData = async () => {
+  const filtersKey = useMemo(() => JSON.stringify(filters), [filters]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const _optionsKey = useMemo(() => JSON.stringify({ filters, orderBy, ascending, select, limit }), [filtersKey, orderBy, ascending, select, limit]);
+
+  const fetchData = useCallback(async () => {
     setLoading(true);
     let query = supabase.from(table).select(select);
 
@@ -26,11 +30,12 @@ export function useSupabase(table, options = {}) {
     if (err) setError(err.message);
     else setData(result);
     setLoading(false);
-  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [table, select, filtersKey, orderBy, ascending, limit]);
 
   useEffect(() => {
     fetchData();
-  }, [table, JSON.stringify(filters)]);
+  }, [fetchData]);
 
   return { data, loading, error, refetch: fetchData };
 }

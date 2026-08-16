@@ -20,10 +20,6 @@ function isLead(position) {
   return /lead/i.test(position || '')
 }
 
-function isFacultyCoordinator(position) {
-  return /faculty\s*co-?ordinator/i.test(position || '')
-}
-
 export default function Leadership() {
   const { data: leadership, loading: leadershipLoading } = useSupabase(TABLES.LEADERSHIP, {
     orderBy: 'display_order',
@@ -34,8 +30,8 @@ export default function Leadership() {
     ascending: true,
   })
 
-  const facultyCoordinators = (leadership || []).filter((p) => isFacultyCoordinator(p.position))
-  const otherLeadership = (leadership || []).filter((p) => !isFacultyCoordinator(p.position))
+  const facultyCoordinators = (leadership || []).filter((p) => p.type === 'faculty')
+  const studentLeadership = (leadership || []).filter((p) => p.type === 'student')
 
   const teams = useMemo(() => {
     const names = Array.from(new Set((members || []).map((m) => m.team).filter(Boolean)))
@@ -67,10 +63,10 @@ export default function Leadership() {
         <TextReveal as="h1" text="The people behind it." className="font-display text-3xl md:text-6xl text-paper" trigger="mount" />
       </div>
 
-      {/* Faculty Coordinator */}
+      {/* Faculty Council */}
       {facultyCoordinators.length > 0 && (
         <div className="mt-16">
-          <Reveal><span className="eyebrow">Faculty Coordinator</span></Reveal>
+          <Reveal><span className="eyebrow">Faculty Council</span></Reveal>
           <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
             {facultyCoordinators.map((p, i) => (
               <MemberCard key={p.id} person={p} index={i} variant="leadership" />
@@ -79,16 +75,16 @@ export default function Leadership() {
         </div>
       )}
 
-      {/* Leadership */}
+      {/* Student Leadership */}
       <div className="mt-16">
-        <Reveal><span className="eyebrow">Leadership</span></Reveal>
+        <Reveal><span className="eyebrow">Student Leadership</span></Reveal>
         <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
           {leadershipLoading && <p className="text-fog text-sm font-mono">Loading leadership…</p>}
-          {!leadershipLoading && otherLeadership.map((p, i) => (
+          {!leadershipLoading && studentLeadership.map((p, i) => (
             <MemberCard key={p.id} person={p} index={i} variant="leadership" />
           ))}
-          {!leadershipLoading && otherLeadership.length === 0 && (
-            <p className="text-fog text-sm">No leadership listed yet.</p>
+          {!leadershipLoading && studentLeadership.length === 0 && (
+            <p className="text-fog text-sm">No student leadership listed yet.</p>
           )}
         </div>
       </div>

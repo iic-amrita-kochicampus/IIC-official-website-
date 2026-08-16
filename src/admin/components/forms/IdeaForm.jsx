@@ -17,7 +17,7 @@ export default function IdeaForm() {
     try {
       let attachment_url = null;
       if (data.attachment?.[0]) {
-        attachment_url = await uploadFile(BUCKETS.IDEA_ATTACHMENTS, data.attachment[0], 'ideas');
+        attachment_url = await uploadFile(BUCKETS.IDEA_ATTACHMENTS, data.attachment[0], '', null, data.title);
       }
 
       const { attachment: _, ...rest } = data;

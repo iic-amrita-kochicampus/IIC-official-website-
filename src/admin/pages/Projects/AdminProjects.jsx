@@ -22,18 +22,25 @@ export default function AdminProjects() {
   const { register, handleSubmit, reset } = useForm({ defaultValues: emptyForm });
 
   const openAdd = () => { setEditing(null); reset(emptyForm); setModalOpen(true); };
-  const openEdit = (p) => { setEditing(p); reset(p); setModalOpen(true); };
+  const openEdit = (p) => { 
+    setEditing(p); 
+    const techString = Array.isArray(p.technologies) ? p.technologies.join(', ') : p.technologies;
+    reset({ ...p, technologies: techString }); 
+    setModalOpen(true); 
+  };
 
   const onSubmit = async (data) => {
-    if (data.technologies && typeof data.technologies === 'string') {
-      data.technologies = data.technologies.split(',').map((t) => t.trim()).filter(Boolean);
+    if (data.technologies) {
+      data.technologies = typeof data.technologies === 'string'
+        ? data.technologies.split(',').map((t) => t.trim()).filter(Boolean)
+        : data.technologies;
     }
     const payload = { ...data };
     const imageFile = payload.image_file?.[0];
     delete payload.image_file;
 
     if (imageFile) {
-      const url = await uploadFile(BUCKETS.PROJECT_IMAGES, imageFile, 'projects');
+      const url = await uploadFile(BUCKETS.PROJECT_IMAGES, imageFile, '', null, payload.title);
       if (url) payload.image_url = url;
     }
 

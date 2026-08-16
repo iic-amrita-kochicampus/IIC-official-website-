@@ -48,8 +48,7 @@ export const PROJECT_CATEGORIES = [
 ];
 
 export const DEPARTMENTS = [
-  'Computer Science', 'Information Technology', 'Electronics',
-  'Mechanical', 'Civil', 'Electrical', 'Biotechnology', 'Other',
+  'CS & IT', 'VM & Communication', 'Commerce and Management', 'Physical Sciences', 'Administration',
 ];
 
 export const YEARS = ['1st Year', '2nd Year', '3rd Year', '4th Year'];

@@ -1,11 +1,11 @@
 import MaskReveal from '../common/MaskReveal'
 
-function isLead(position) {
-  return /lead/i.test(position || '')
+function isLead(role) {
+  return /lead/i.test(role || '')
 }
 
 // Used for the Leadership grid on the Leadership page.
-function LeadershipVariant({ person, index }) {
+function LeadershipVariant({ person }) {
   return (
     <div className="glass-card rounded-xl overflow-hidden">
       <div className="aspect-square bg-gradient-to-br from-maroon/25 to-innovation-blue/15 flex items-center justify-center text-fog font-mono text-xs overflow-hidden">
@@ -16,9 +16,10 @@ function LeadershipVariant({ person, index }) {
         )}
       </div>
       <div className="p-4">
-        <span className="text-[10px] font-mono uppercase text-innovation-orange">{person.position}</span>
+        <span className="text-[10px] font-mono uppercase text-innovation-orange">{person.role}</span>
         <div className="text-paper text-sm font-medium mt-1">{person.name}</div>
-        <div className="text-fog text-xs font-mono">{person.department || 'Pending'}</div>
+        {person.department && <div className="text-fog text-xs font-mono mt-1">{person.department}</div>}
+        {person.designation && <div className="text-fog text-xs mt-1">{person.designation}</div>}
 
         <div className="mt-2 flex items-center gap-3">
           {person.email && (
@@ -69,7 +70,7 @@ function MemberVariant({ person }) {
         ) : (
           <div className="w-full h-full flex items-center justify-center text-fog font-mono text-xs">Pending</div>
         )}
-        {isLead(person.position) && (
+        {isLead(person.role) && (
           <span className="absolute top-2 left-2 bg-gradient-to-r from-innovation-blue to-innovation-orange text-void text-[10px] font-mono uppercase px-2 py-1 rounded">
             Lead
           </span>
@@ -84,13 +85,13 @@ function MemberVariant({ person }) {
 }
 
 // variant: 'leadership' | 'member'
-export default function MemberCard({ person, index, variant = 'member' }) {
+export default function MemberCard({ person, _index, variant = 'member' }) {
   return (
-    <MaskReveal delay={index * 0.05} direction="up" className="rounded-xl" curtainClass="bg-ink-2">
+    <MaskReveal delay={_index * 0.05} direction="up" className="rounded-xl" curtainClass="bg-ink-2">
       {variant === 'leadership' ? (
-        <LeadershipVariant person={person} index={index} />
+        <LeadershipVariant person={person} />
       ) : (
-        <MemberVariant person={person} index={index} />
+        <MemberVariant person={person} />
       )}
     </MaskReveal>
   )

@@ -16,7 +16,7 @@ export default function QueryForm() {
   const onSubmit = async (data) => {
     let attachment_url = null
     if (data.attachment?.[0]) {
-      attachment_url = await uploadFile(BUCKETS.QUERY_ATTACHMENTS, data.attachment[0], 'queries')
+      attachment_url = await uploadFile(BUCKETS.QUERY_ATTACHMENTS, data.attachment[0], '', null, data.subject)
     }
 
     const { error } = await insert([{

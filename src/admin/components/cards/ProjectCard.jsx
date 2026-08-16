@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { FolderKanban, ExternalLink, Users, TrendingUp } from 'lucide-react';
+import { FolderKanban, ExternalLink, Users } from 'lucide-react';
 
 export default function ProjectCard({ project }) {
   return (

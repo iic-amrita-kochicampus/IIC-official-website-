@@ -29,7 +29,7 @@ export default function OrbitNodes({ scrollProgress }) {
     return list
   }, [])
 
-  useFrame((state, delta) => {
+  useFrame((state, _delta) => {
     const progress = scrollProgress?.current ?? 1
     const t = state.clock.getElapsedTime()
 

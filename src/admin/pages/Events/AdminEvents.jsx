@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Plus, Edit2, Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Plus, Edit2, Trash2, Images } from 'lucide-react';
 import { useSupabase, useSupabaseInsert, useSupabaseUpdate, useSupabaseDelete } from '../../../hooks/useSupabase';
 import { TABLES, BUCKETS } from '../../../services/supabase';
 import { uploadFile } from '../../../utils/supabaseStorage';
@@ -13,6 +14,7 @@ import { formatDate } from '../../../utils/helpers';
 const emptyForm = { title: '', description: '', event_date: '', event_time: '', venue: '', registration_url: '', status: 'upcoming', FacultyCoordinator: '', StudentCoordinator: '', poster_url: '' };
 
 export default function AdminEvents() {
+  const navigate = useNavigate();
   const { data: events, loading, refetch } = useSupabase(TABLES.EVENTS, { orderBy: 'event_date', ascending: false });
   const { insert } = useSupabaseInsert(TABLES.EVENTS);
   const { update } = useSupabaseUpdate(TABLES.EVENTS);
@@ -23,6 +25,7 @@ export default function AdminEvents() {
 
   const openAdd = () => { setEditing(null); reset(emptyForm); setModalOpen(true); };
   const openEdit = (e) => { setEditing(e); reset(e); setModalOpen(true); };
+  const openGallery = (eventId, title) => { navigate(`/admin/events/${eventId}/gallery`, { state: { eventTitle: title } }); };
 
   const onSubmit = async (data) => {
     const payload = { ...data };
@@ -30,7 +33,7 @@ export default function AdminEvents() {
     delete payload.poster_file;
 
     if (posterFile) {
-      const url = await uploadFile(BUCKETS.EVENT_POSTERS, posterFile, 'events');
+      const url = await uploadFile(BUCKETS.EVENT_POSTERS, posterFile, '', null, payload.title);
       if (url) payload.poster_url = url;
     }
 
@@ -58,7 +61,7 @@ export default function AdminEvents() {
       </div>
       {loading ? <Loader /> : (
         <div className="admin-card overflow-x-auto">
-          <table className="w-full text-left min-w-[700px]">
+          <table className="w-full text-left min-w-[800px]">
             <thead className="bg-admin-surface-2"><tr>
               <th className="px-6 py-4 text-sm font-semibold text-admin-muted">Title</th>
               <th className="px-6 py-4 text-sm font-semibold text-admin-muted">Date</th>
@@ -76,6 +79,7 @@ export default function AdminEvents() {
                     <span className={`px-2 py-1 text-xs font-medium rounded-full ${e.status === 'featured' ? 'bg-purple-100 text-purple-700' : e.status === 'upcoming' ? 'bg-green-100 text-green-700' : 'bg-admin-surface-2 text-admin-muted'}`}>{e.status}</span>
                   </td>
                   <td className="px-6 py-4 flex gap-2">
+                    <button onClick={() => openGallery(e.id, e.title)} className="p-2 hover:bg-admin-surface-2 rounded-lg" title="Manage Gallery"><Images size={16} className="text-primary" /></button>
                     <button onClick={() => openEdit(e)} className="p-2 hover:bg-admin-surface-2 rounded-lg"><Edit2 size={16} className="text-primary" /></button>
                     <button onClick={() => handleDelete(e.id)} className="p-2 hover:bg-red-50 rounded-lg"><Trash2 size={16} className="text-red-500" /></button>
                   </td>

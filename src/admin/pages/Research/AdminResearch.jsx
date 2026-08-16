@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, Edit2, Trash2 } from 'lucide-react';
+import { Plus, Edit2, Trash2, FileText } from 'lucide-react';
 import { useSupabase, useSupabaseInsert, useSupabaseUpdate, useSupabaseDelete } from '../../../hooks/useSupabase';
 import { TABLES, BUCKETS } from '../../../services/supabase';
 import { uploadFile } from '../../../utils/supabaseStorage';
@@ -19,6 +19,7 @@ const emptyForm = {
   status: 'Ongoing',
   image_url: '',
   document_url: '',
+  document_urls: [],
 };
 
 export default function AdminResearch() {
@@ -28,25 +29,35 @@ export default function AdminResearch() {
   const { remove } = useSupabaseDelete(TABLES.RESEARCH);
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState(null);
-  const { register, handleSubmit, reset } = useForm({ defaultValues: emptyForm });
+  const { register, handleSubmit, reset, watch, setValue } = useForm({ defaultValues: emptyForm });
+  
+  const watchedFiles = watch('document_files');
 
-  const openAdd = () => { setEditing(null); reset(emptyForm); setModalOpen(true); };
-  const openEdit = (r) => { setEditing(r); reset(r); setModalOpen(true); };
+  const openAdd = () => { setEditing(null); reset(emptyForm); setValue('document_files', []); setModalOpen(true); };
+  const openEdit = (r) => { setEditing(r); reset({ ...r, document_files: [] }); setModalOpen(true); };
 
   const onSubmit = async (data) => {
     const payload = { ...data };
     const imageFile = payload.image_file?.[0];
-    const documentFile = payload.document_file?.[0];
+    const documentFiles = payload.document_files || [];
     delete payload.image_file;
-    delete payload.document_file;
+    delete payload.document_files;
 
     if (imageFile) {
-      const url = await uploadFile(BUCKETS.RESEARCH_FILES, imageFile, 'research-images');
+      const url = await uploadFile(BUCKETS.RESEARCH_FILES, imageFile, '', null, payload.title);
       if (url) payload.image_url = url;
     }
-    if (documentFile) {
-      const url = await uploadFile(BUCKETS.RESEARCH_FILES, documentFile, 'research-documents');
-      if (url) payload.document_url = url;
+
+    if (documentFiles.length > 0) {
+      const urls = [];
+      for (const file of documentFiles) {
+        const url = await uploadFile(BUCKETS.RESEARCH_FILES, file, '', null, payload.title);
+        if (url) urls.push(url);
+      }
+      if (urls.length > 0) {
+        payload.document_urls = urls;
+        payload.document_url = urls[0]; // backward compat
+      }
     }
 
     if (editing) {
@@ -79,7 +90,7 @@ export default function AdminResearch() {
               <th className="px-6 py-4 text-sm font-semibold text-admin-muted">Researcher</th>
               <th className="px-6 py-4 text-sm font-semibold text-admin-muted">Status</th>
               <th className="px-6 py-4 text-sm font-semibold text-admin-muted">Category</th>
-              <th className="px-6 py-4 text-sm font-semibold text-admin-muted">Document</th>
+              <th className="px-6 py-4 text-sm font-semibold text-admin-muted">Documents</th>
               <th className="px-6 py-4 text-sm font-semibold text-admin-muted">Actions</th>
             </tr></thead>
             <tbody className="divide-y divide-admin-border">
@@ -92,8 +103,10 @@ export default function AdminResearch() {
                   </td>
                   <td className="px-6 py-4 text-sm text-admin-muted">{r.category}</td>
                   <td className="px-6 py-4 text-sm">
-                    {r.document_url ? (
-                      <a href={r.document_url} target="_blank" rel="noreferrer" className="text-primary hover:underline">View</a>
+                    {r.document_urls && r.document_urls.length > 0 ? (
+                      <span className="text-primary hover:underline cursor-pointer" title={r.document_urls.join(', ')}>
+                        {r.document_urls.length} document{r.document_urls.length > 1 ? 's' : ''}
+                      </span>
                     ) : (
                       <span className="text-admin-muted">—</span>
                     )}
@@ -133,7 +146,15 @@ export default function AdminResearch() {
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Image URL</label><input {...register('image_url')} placeholder="https://... or uploaded image URL" className="w-full px-4 py-2.5 admin-input" /></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Upload Image</label><input type="file" {...register('image_file')} className="w-full px-4 py-2.5 admin-input file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:bg-primary/10 file:text-primary file:font-medium" /></div>
           <div><label className="block text-sm font-medium text-admin-muted mb-1">Document URL</label><input {...register('document_url')} placeholder="https://... link to paper / patent / file" className="w-full px-4 py-2.5 admin-input" /></div>
-          <div><label className="block text-sm font-medium text-admin-muted mb-1">Upload Document</label><input type="file" {...register('document_file')} className="w-full px-4 py-2.5 admin-input file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:bg-primary/10 file:text-primary file:font-medium" /></div>
+          <div>
+            <label className="block text-sm font-medium text-admin-muted mb-1">Upload Documents (Multiple)</label>
+            <input type="file" {...register('document_files')} multiple className="w-full px-4 py-2.5 admin-input file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:bg-primary/10 file:text-primary file:font-medium" />
+            {watchedFiles && Array.isArray(watchedFiles) && watchedFiles.length > 0 && (
+              <ul className="mt-2 text-xs text-fog space-y-1">
+                {watchedFiles.map((f, i) => <li key={i} title={f.name}>{f.name}</li>)}
+              </ul>
+            )}
+          </div>
           <Button type="submit" className="w-full">{editing ? 'Update' : 'Add'} Research</Button>
         </form>
       </Modal>

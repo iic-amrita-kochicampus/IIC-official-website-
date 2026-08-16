@@ -7,6 +7,7 @@ import Dashboard from '../pages/Dashboard/Dashboard';
 import AdminLeadership from '../pages/Leadership/AdminLeadership';
 import AdminMembers from '../pages/Members/AdminMembers';
 import AdminEvents from '../pages/Events/AdminEvents';
+import AdminEventGallery from '../pages/Events/AdminEventGallery';
 import AdminNotices from '../pages/Notices/AdminNotices';
 import AdminAmbassadors from '../pages/Ambassadors/AdminAmbassadors';
 import AdminResearch from '../pages/Research/AdminResearch';
@@ -34,6 +35,7 @@ export default function AdminRoutes() {
         <Route path="leadership" element={<AdminLeadership />} />
         <Route path="members" element={<AdminMembers />} />
         <Route path="events" element={<AdminEvents />} />
+        <Route path="events/:eventId/gallery" element={<AdminEventGallery />} />
         <Route path="notices" element={<AdminNotices />} />
         <Route path="ambassadors" element={<AdminAmbassadors />} />
         <Route path="research" element={<AdminResearch />} />

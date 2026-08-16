@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Reveal from '../common/Reveal'
 import Countdown from '../Countdown/Countdown'
 import Modal from '../common/Modal'
+import EventGallery from './EventGallery'
 
 function formatDate(dateStr) {
   if (!dateStr) return 'Pending'
@@ -18,6 +19,7 @@ function formatDate(dateStr) {
 
 export default function EventCard({ event: e, index: i, tab }) {
   const [isPosterOpen, setIsPosterOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState('details')
   const targetDate = e.event_date
     ? `${e.event_date}T${e.event_time || '00:00:00'}`
     : null
@@ -107,72 +109,107 @@ export default function EventCard({ event: e, index: i, tab }) {
       </Reveal>
 
       <Modal isOpen={isPosterOpen} onClose={() => setIsPosterOpen(false)} title={e.title || 'Event Details'} size="xl">
-        <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr] items-start">
-          <div className="overflow-hidden rounded-3xl bg-gradient-to-br from-innovation-blue/10 to-innovation-orange/10 max-h-[70vh]">
-            {e.poster_url ? (
-              <img
-                src={e.poster_url}
-                alt={e.title}
-                className="w-full h-full max-h-[70vh] object-contain"
-              />
-            ) : (
-              <div className="flex min-h-[420px] max-h-[70vh] items-center justify-center px-6 py-10 text-center text-fog">
-                <div>
-                  <p className="text-lg font-semibold text-paper">Event details</p>
-                  <p className="mt-3 text-sm">No poster image available for this event.</p>
+        <div className="flex flex-col h-full">
+          {/* Tabs */}
+          <div className="flex border-b border-line mb-4">
+            <button
+              onClick={() => setActiveTab('details')}
+              className={`px-6 py-3 text-sm font-mono uppercase tracking-wide border-b-2 transition ${
+                activeTab === 'details' 
+                  ? 'border-innovation-orange text-innovation-orange' 
+                  : 'text-fog hover:text-paper'
+              }`}
+            >
+              Details
+            </button>
+            <button
+              onClick={() => setActiveTab('gallery')}
+              className={`px-6 py-3 text-sm font-mono uppercase tracking-wide border-b-2 transition ${
+                activeTab === 'gallery' 
+                  ? 'border-innovation-orange text-innovation-orange' 
+                  : 'text-fog hover:text-paper'
+              }`}
+            >
+              Gallery
+            </button>
+          </div>
+
+          {/* Content */}
+          <div className="flex-1 overflow-y-auto">
+            {activeTab === 'details' && (
+              <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr] items-start h-full">
+                <div className="overflow-hidden rounded-3xl bg-gradient-to-br from-innovation-blue/10 to-innovation-orange/10 max-h-[70vh]">
+                  {e.poster_url ? (
+                    <img
+                      src={e.poster_url}
+                      alt={e.title}
+                      className="w-full h-full max-h-[70vh] object-contain"
+                    />
+                  ) : (
+                    <div className="flex min-h-[420px] max-h-[70vh] items-center justify-center px-6 py-10 text-center text-fog">
+                      <div>
+                        <p className="text-lg font-semibold text-paper">Event details</p>
+                        <p className="mt-3 text-sm">No poster image available for this event.</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-6">
+                  <div>
+                    <div className="flex items-center gap-4 flex-wrap">
+                      <span className="text-xs font-mono uppercase tracking-[0.3em] text-innovation-orange">
+                        {formatDate(e.event_date)}
+                      </span>
+                      {e.venue && (
+                        <span className="text-xs font-mono uppercase tracking-[0.3em] text-fog">
+                          {e.venue}
+                        </span>
+                      )}
+                    </div>
+
+                    <h2 className="font-display text-4xl text-paper mt-5 leading-tight">
+                      {e.title}
+                    </h2>
+
+                    {e.description && (
+                      <p className="mt-6 text-sm leading-7 text-fog">
+                        {e.description}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="grid gap-4 text-sm text-paper">
+                    {e.FacultyCoordinator && (
+                      <div className="rounded-3xl bg-white/5 p-5">
+                        <p className="text-[11px] uppercase tracking-[0.25em] text-fog mb-2">Faculty Coordinator</p>
+                        <p>{e.FacultyCoordinator}</p>
+                      </div>
+                    )}
+                    {e.StudentCoordinator && (
+                      <div className="rounded-3xl bg-white/5 p-5">
+                        <p className="text-[11px] uppercase tracking-[0.25em] text-fog mb-2">Student Coordinator</p>
+                        <p>{e.StudentCoordinator}</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {e.registration_url && (
+                    <a
+                      href={e.registration_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex w-fit items-center justify-center rounded-full bg-innovation-orange px-6 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-void transition hover:bg-orange-500"
+                    >
+                      Register Now
+                    </a>
+                  )}
                 </div>
               </div>
             )}
-          </div>
 
-          <div className="space-y-6">
-            <div>
-              <div className="flex items-center gap-4 flex-wrap">
-                <span className="text-xs font-mono uppercase tracking-[0.3em] text-innovation-orange">
-                  {formatDate(e.event_date)}
-                </span>
-                {e.venue && (
-                  <span className="text-xs font-mono uppercase tracking-[0.3em] text-fog">
-                    {e.venue}
-                  </span>
-                )}
-              </div>
-
-              <h2 className="font-display text-4xl text-paper mt-5 leading-tight">
-                {e.title}
-              </h2>
-
-              {e.description && (
-                <p className="mt-6 text-sm leading-7 text-fog">
-                  {e.description}
-                </p>
-              )}
-            </div>
-
-            <div className="grid gap-4 text-sm text-paper">
-              {e.FacultyCoordinator && (
-                <div className="rounded-3xl bg-white/5 p-5">
-                  <p className="text-[11px] uppercase tracking-[0.25em] text-fog mb-2">Faculty Coordinator</p>
-                  <p>{e.FacultyCoordinator}</p>
-                </div>
-              )}
-              {e.StudentCoordinator && (
-                <div className="rounded-3xl bg-white/5 p-5">
-                  <p className="text-[11px] uppercase tracking-[0.25em] text-fog mb-2">Student Coordinator</p>
-                  <p>{e.StudentCoordinator}</p>
-                </div>
-              )}
-            </div>
-
-            {e.registration_url && (
-              <a
-                href={e.registration_url}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex w-fit items-center justify-center rounded-full bg-innovation-orange px-6 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-void transition hover:bg-orange-500"
-              >
-                Register Now
-              </a>
+            {activeTab === 'gallery' && (
+              <EventGallery eventId={e.id} />
             )}
           </div>
         </div>

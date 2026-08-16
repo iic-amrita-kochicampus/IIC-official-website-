@@ -1,4 +1,3 @@
-import amritaLogo from '../../assets/logos/amrita-logo.png'
 import iicLogo from '../../assets/logos/iic-logo.png'
 
 /**
