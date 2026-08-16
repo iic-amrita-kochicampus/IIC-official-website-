@@ -35,11 +35,6 @@ const FACULTY_ROLES = [
   'Internship Activity Coordinator',
 ];
 
-const LEADERSHIP_TYPES = [
-  { value: 'student', label: 'Student' },
-  { value: 'faculty', label: 'Faculty' },
-];
-
 const emptyForm = { name: '', type: 'student', role: '', department: '', designation: '', email: '', linkedin: '', display_order: 0, is_active: true, image_url: '' };
 
 export default function AdminLeadership() {

@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useSupabase } from '../../hooks/useSupabase'
 import Logo from '../common/Logo'
 import amritaLogo from '../../assets/logos/amrita-logo.png'
-import { Phone, Mail, MapPin } from 'lucide-react'
+import { Phone, MapPin } from 'lucide-react'
 
 // Inline SVG components for social media icons
 const FacebookIcon = () => (
@@ -14,7 +14,7 @@ const FacebookIcon = () => (
 
 const TwitterIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-8.87 0 4.5 4.5 0 0 0 0 6.36 12.5 12.5 0 0 1-9.5 2.8 4.5 4.5 0 0 0 .7 4.7 4.4 4.4 0 0 1-5.3-.3 13 13 0 0 0 5 1.4 4.5 4.5 0 0 0 5.6-3 4.5 4.5 0 0 0 1-3.2V4.7a13 13 0 0 1 1.8-2.6 4.5 4.5 0 0 1 4.7-2.5 4 4 0 0 1 5.2 0 10.5 10.5 0 0 1 5.6 3.8z" />
+    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-8.87 0 4.5 4.5 0 0 0 0 6.36 12.5 12.5 0 0 1-9.5 2.8 4.5 4.5 0 0 0 .7 4.7 4.4 4.4 0 0 1-5.3-.3 13 13 0 0 0 5 1.4 4.5 4.5 0 0 0 5.6-3 4.5 4.5 0 0 0 1-3.2V4.7a13 13 0 0 1 1.8-2.6 4.5 4.5 0 0 0 5.6 3.8z" />
   </svg>
 )
 
@@ -35,7 +35,7 @@ const LinkedinIcon = () => (
 )
 
 export default function Footer() {
-  const { data: settings, loading, refetch } = useSupabase('settings', {
+  const { data: settings, refetch } = useSupabase('settings', {
     orderBy: 'created_at',
     ascending: false,
     limit: 1,

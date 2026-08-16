@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import Reveal from '../../components/common/Reveal'
 import TextReveal from '../../components/common/TextReveal'
-import AmbientCanvas from '../../components/three/AmbientCanvas'
 import Modal from '../../components/common/Modal'
 import { useSupabase } from '../../hooks/useSupabase'
 import { TABLES } from '../../services/supabase'
+
+const AmbientCanvas = lazy(() => import('../../components/three/AmbientCanvas'))
 
 function Block({ title, children }) {
   return (
@@ -33,8 +34,6 @@ function matchesCategory(category, target) {
 // Research Detail Modal Component
 function ResearchModal({ item, onClose }) {
   if (!item) return null
-
-  const getCategoryLabel = (cat) => CATEGORY[cat] || cat
 
   return (
     <Modal
@@ -139,7 +138,9 @@ export default function Research() {
 
   return (
     <div className="relative pt-32 pb-24 max-w-[1400px] mx-auto px-6 md:px-10 overflow-hidden">
-      <AmbientCanvas className="-z-10" color="#a5303f" count={400} />
+      <Suspense fallback={null}>
+        <AmbientCanvas className="-z-10" color="#a5303f" count={400} />
+      </Suspense>
       <Reveal><span className="eyebrow">Research & Development</span></Reveal>
       <div className="mt-6">
         <TextReveal as="h1" text="Where curiosity gets rigorous." className="font-display text-3xl md:text-6xl text-paper" trigger="mount" />

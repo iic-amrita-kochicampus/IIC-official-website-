@@ -1,9 +1,11 @@
 import Reveal from '../../components/common/Reveal'
 import TextReveal from '../../components/common/TextReveal'
 import ProjectCard from '../../components/cards/ProjectCard'
-import AmbientCanvas from '../../components/three/AmbientCanvas'
 import { useSupabase } from '../../hooks/useSupabase'
 import { TABLES } from '../../services/supabase'
+import { lazy, Suspense } from 'react'
+
+const AmbientCanvas = lazy(() => import('../../components/three/AmbientCanvas'))
 
 export default function Projects() {
   const { data: projects, loading } = useSupabase(TABLES.PROJECTS, {
@@ -13,7 +15,9 @@ export default function Projects() {
 
   return (
     <div className="relative pt-32 pb-24 max-w-[1400px] mx-auto px-6 md:px-10 overflow-hidden">
-      <AmbientCanvas className="-z-10" color="#ff8a3d" count={400} />
+      <Suspense fallback={null}>
+        <AmbientCanvas className="-z-10" color="#ff8a3d" count={400} />
+      </Suspense>
       <Reveal><span className="eyebrow">Active Projects</span></Reveal>
       <div className="mt-6">
         <TextReveal as="h1" text="From question to prototype." className="font-display text-3xl md:text-6xl text-paper" trigger="mount" />

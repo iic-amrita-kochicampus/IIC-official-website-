@@ -6,9 +6,6 @@ export default function ProjectCard({ project: p, index: i }) {
     ? (Array.isArray(p.technologies) ? p.technologies : p.technologies.split(',').map((t) => t.trim()).filter(Boolean))
     : []
 
-  // Helper to check if value exists and is not empty/pending
-  const hasValue = (val) => val && val.toString().trim() && val.toString().trim().toLowerCase() !== 'pending'
-
   return (
     <Reveal delay={i * 0.08} x={i % 2 === 0 ? -40 : 40} y={0} className="glass-card rounded-2xl overflow-hidden">
       <div className="aspect-video bg-gradient-to-br from-innovation-blue/10 to-innovation-orange/10 flex items-center justify-center text-fog font-mono text-xs overflow-hidden">

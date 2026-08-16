@@ -87,7 +87,6 @@ export default function AdminEventGallery() {
         const randomStr = Math.random().toString(36).substring(7);
         const fileExt = fileData.file.name.split('.').pop().toLowerCase();
         const filename = `${eventSlug}-${String(i + 1).padStart(2, '0')}-${timestamp}-${randomStr}.${fileExt}`;
-        const storagePath = `event-gallery/event-${eventId}/${filename}`;
 
         const url = await uploadFile(
           BUCKETS.EVENT_GALLERY,
@@ -159,14 +158,6 @@ export default function AdminEventGallery() {
       const updated = [...prev];
       URL.revokeObjectURL(updated[index].preview);
       updated.splice(index, 1);
-      return updated;
-    });
-  };
-
-  const updateUploadFile = (index, field, value) => {
-    setUploadingFiles(prev => {
-      const updated = [...prev];
-      updated[index][field] = value;
       return updated;
     });
   };

@@ -44,7 +44,6 @@ export async function uploadFile(bucket, file, folder = '', customFileName = nul
       fileName = testName;
     }
   } else {
-    const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
     fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
   }
 
