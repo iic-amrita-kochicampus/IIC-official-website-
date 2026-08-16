@@ -11,6 +11,8 @@ import { useForm } from 'react-hook-form';
 import { DEPARTMENTS } from '../../../utils/helpers';
 
 const STUDENT_ROLES = [
+  'Student President',
+  'Student Convener',
   'Innovation Coordinator',
   'Internship Coordinator',
   'Core Member',
