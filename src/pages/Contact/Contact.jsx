@@ -1,8 +1,11 @@
 import { MapPin } from 'lucide-react'
+import { useEffect } from 'react'
 import Reveal from '../../components/common/Reveal'
 import ContactForm from '../../components/forms/ContactForm'
 import { useSupabase } from '../../hooks/useSupabase'
 import { TABLES } from '../../services/supabase'
+
+const MAPS_URL = 'https://maps.app.goo.gl/ViQoyvZdiN5MtLKb7'
 
 // Inline SVG components for social media icons
 const FacebookIcon = () => (
@@ -33,16 +36,50 @@ const LinkedinIcon = () => (
   </svg>
 )
 
-const MAPS_URL = 'https://maps.app.goo.gl/ViQoyvZdiN5MtLKb7'
-
 export default function Contact() {
-  const { data: settings, loading } = useSupabase(TABLES.SETTINGS, {
+  const { data: settings, loading, refetch } = useSupabase(TABLES.SETTINGS, {
     orderBy: 'created_at',
     ascending: false,
     limit: 1,
   })
 
   const settingsData = settings?.[0] || {}
+
+  // Listen for settings updates from admin panel (same tab)
+  useEffect(() => {
+    const handleSettingsUpdate = () => {
+      refetch()
+    }
+    window.addEventListener('settings-updated', handleSettingsUpdate)
+    return () => window.removeEventListener('settings-updated', handleSettingsUpdate)
+  }, [refetch])
+
+  // Also refetch when window gains focus (for cross-tab updates)
+  useEffect(() => {
+    const handleFocus = () => {
+      refetch()
+    }
+    window.addEventListener('focus', handleFocus)
+    return () => window.removeEventListener('focus', handleFocus)
+  }, [refetch])
+
+  // Listen for settings updates from admin panel (same tab)
+  useEffect(() => {
+    const handleSettingsUpdate = () => {
+      refetch()
+    }
+    window.addEventListener('settings-updated', handleSettingsUpdate)
+    return () => window.removeEventListener('settings-updated', handleSettingsUpdate)
+  }, [refetch])
+
+  // Also refetch when window gains focus (for cross-tab updates)
+  useEffect(() => {
+    const handleFocus = () => {
+      refetch()
+    }
+    window.addEventListener('focus', handleFocus)
+    return () => window.removeEventListener('focus', handleFocus)
+  }, [refetch])
 
   return (
     <div className="pt-32 pb-24 max-w-[1400px] mx-auto px-6 md:px-10">
