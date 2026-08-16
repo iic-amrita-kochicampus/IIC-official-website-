@@ -16,7 +16,7 @@ import AdminCertificates from '../pages/Certificates/AdminCertificates';
 import AdminIdeas from '../pages/Ideas/AdminIdeas';
 import AdminQueries from '../pages/Queries/AdminQueries';
 import AdminContacts from '../pages/Contacts/AdminContacts';
-import Settings from '../pages/Settings/Settings';
+
 
 export default function AdminRoutes() {
   return (
@@ -44,7 +44,7 @@ export default function AdminRoutes() {
         <Route path="ideas" element={<AdminIdeas />} />
         <Route path="queries" element={<AdminQueries />} />
         <Route path="contacts" element={<AdminContacts />} />
-        <Route path="settings" element={<Settings />} />
+        
       </Route>
 
       <Route path="*" element={<Navigate to="/admin/login" replace />} />

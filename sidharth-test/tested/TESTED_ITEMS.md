@@ -119,10 +119,10 @@
 - [x] **DEPARTMENTS** added "Administration" for President/Dean
 
 ---
- 
+
 ## 📁 Evidence (Archived)
 - `sidharth-test/tested/evidence/event_gallery_migration.sql` (moved)
- 
+
 ---
 
 ## 🔧 Pending / To Test
@@ -159,3 +159,36 @@
 - `src/admin/pages/Queries/AdminQueries.jsx` - Admin queries management with status tracking
 - `src/components/forms/ContactForm.jsx` - Public contact form (if exists)
 - 13 admin/page/form files - Updated to pass `baseName` for filename generation
+
+---
+
+## 🗑️ Removed: Settings Page (Admin)
+
+**Removed in:** Recent commit to simplify admin panel
+
+### What the Settings page did (for future reference):
+- **General Information**: Institution Name, IIC Name, Tagline, About (Short)
+- **Contact Details**: Email, Phone, Address
+- **Social Media**: Facebook URL, Twitter URL, Instagram URL, LinkedIn URL
+- **Image Management**: Upload/preview for institution logo/image
+- **Storage**: Saved to `settings` table in Supabase (single row, upsert on `id`)
+- **Public API**: Settings fetched by public pages (Footer, Contact page) to display contact info and social links
+- **Bucket Used**: `leadership-images` for image uploads
+- **Image Upload**: Used `uploadFile` utility with name-based filenames and duplicate suffix handling
+- **Data Model**: Single row in `settings` table with columns for all fields above
+
+### Admin Page: `src/admin/pages/Settings/Settings.jsx` (Removed)
+- Form with fields for all settings
+- Image upload with preview
+- Save functionality using Supabase upsert
+
+### Public Consumers of Settings:
+- `src/components/layout/Footer.jsx` - Displays contact info, social links, institution name
+- `src/pages/Contact/Contact.jsx` - Displays contact info and social links
+- `src/pages/Research/Research.jsx` - Uses settings for institution info
+
+### Files Modified During Removal:
+1. Removed: `src/admin/pages/Settings/Settings.jsx`
+2. Removed route from `src/admin/routes/AdminRoutes.jsx`
+3. Removed from sidebar in `src/components/layout/AdminSidebar.jsx`
+3. Removed Settings icon import from lucide-react

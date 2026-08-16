@@ -4,7 +4,7 @@ import { useRef, useLayoutEffect, useState } from 'react';
 import gsap from 'gsap';
 import {
   LayoutDashboard, Users, Calendar, Bell, Award, FlaskConical,
-  FolderKanban, FileCheck, Lightbulb, MessageSquare, Mail, Settings,
+  FolderKanban, FileCheck, Lightbulb, MessageSquare, Mail,
   LogOut, ChevronsLeft,
 } from 'lucide-react';
 
@@ -21,7 +21,6 @@ const sidebarLinks = [
   { name: 'Ideas', path: '/admin/ideas', icon: Lightbulb },
   { name: 'Queries', path: '/admin/queries', icon: MessageSquare },
   { name: 'Contacts', path: '/admin/contacts', icon: Mail },
-  { name: 'Settings', path: '/admin/settings', icon: Settings },
 ];
 
 export default function AdminSidebar({ collapsed, setCollapsed }) {
