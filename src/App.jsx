@@ -39,44 +39,44 @@ export default function App() {
   const location = useLocation()
   const isAdminRoute = location.pathname.startsWith('/admin')
 
-  return (
-    
-      <div className="bg-void min-h-screen">
-        {!isAdminRoute && <Preloader />}
-        {!isAdminRoute && <RouteTransition />}
-        {!isAdminRoute && <CustomCursor />}
-        {!isAdminRoute && <Navbar />}
-        <ScrollToTop />
-        <main>
-          <Suspense
-            fallback={
-              <div className="min-h-[60vh] flex items-center justify-center">
-                <Loader />
-              </div>
-            }
-          >
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/team" element={<Leadership />} />
-              <Route path="/events" element={<Events />} />
-              <Route path="/ambassadors" element={<InnovationAmbassadors />} />
-              <Route path="/research" element={<Research />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/establishment" element={<Establishment />} />
-              <Route path="/ideas-queries" element={<Ideas />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/admin/*" element={<AdminRoutes />} />
-            </Routes>
-          </Suspense>
-        </main>
-        {!isAdminRoute && <Footer />}
-        <ToastContainer
-          position="bottom-right"
-          theme="dark"
-          toastClassName="!bg-ink !border !border-line !font-mono !text-sm"
-        />
-      </div>
-    
-  )
-}
+return (
+       
+       <div className="bg-void min-h-screen flex flex-col">
+         {!isAdminRoute && <Preloader />}
+         {!isAdminRoute && <RouteTransition />}
+         {!isAdminRoute && <CustomCursor />}
+         {!isAdminRoute && <Navbar />}
+         <ScrollToTop />
+         <main className="flex-1">
+           <Suspense
+             fallback={
+               <div className="min-h-[60vh] flex items-center justify-center">
+                 <Loader />
+               </div>
+             }
+           >
+             <Routes>
+               <Route path="/" element={<Home />} />
+               <Route path="/about" element={<About />} />
+               <Route path="/team" element={<Leadership />} />
+               <Route path="/events" element={<Events />} />
+               <Route path="/ambassadors" element={<InnovationAmbassadors />} />
+               <Route path="/research" element={<Research />} />
+               <Route path="/projects" element={<Projects />} />
+               <Route path="/establishment" element={<Establishment />} />
+               <Route path="/ideas-queries" element={<Ideas />} />
+               <Route path="/contact" element={<Contact />} />
+               <Route path="/admin/*" element={<AdminRoutes />} />
+             </Routes>
+           </Suspense>
+         </main>
+         {!isAdminRoute && <Footer />}
+         <ToastContainer
+           position="bottom-right"
+           theme="dark"
+           toastClassName="!bg-ink !border !border-line !font-mono !text-sm"
+         />
+       </div>
+     
+     )
+   }

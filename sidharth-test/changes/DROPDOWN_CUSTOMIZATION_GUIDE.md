@@ -140,6 +140,8 @@ const MEMBER_TEAMS = [
 </select>
 ```
 
+**Technologies Field:** Accepts comma-separated string, stored as array in database, displayed as tags on public page
+
 **No custom option currently**
 
 ---
@@ -283,3 +285,4 @@ const openEdit = (item) => {
 | Certificates Categories | `src/admin/pages/Certificates/AdminCertificates.jsx` | 250-266 |
 | Event Status | `src/admin/pages/Events/AdminEvents.jsx` | 102 |
 | Project Status | `src/admin/pages/Projects/AdminProjects.jsx` | 103 |
+| Project Technologies | `src/admin/pages/Projects/AdminProjects.jsx` | 100 |

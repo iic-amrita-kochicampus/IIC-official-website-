@@ -69,6 +69,21 @@
 - [x] **Filename** - Stored as `name.ext` with `-1`, `-2` suffix for duplicates
 - [x] **Frozen** - No further changes
 
+### Projects Management
+- [x] Project CRUD (Add/Edit/Delete) works ✅
+- [x] Image upload to `project-images` bucket ✅
+- [x] Category dropdown (PROJECT_CATEGORIES) ✅
+- [x] Status dropdown ✅
+- [x] Progress bar with percentage display ✅
+- [x] Team Lead, Team Members, Mentor fields ✅
+- [x] Technologies display (comma-separated tags) ✅
+- [x] Project URL link ✅
+- [x] Category badge display ✅
+- [x] Progress bar with percentage display ✅
+- [x] **All operations verified: Insert, Update, Delete, Display** ✅
+- [x] **Conditional display** - Fields only shown when data exists ✅
+- [x] **Frozen** - No further changes
+
 ### File Upload Pattern
 - [x] All 15 upload calls updated to use `baseName` parameter
 - [x] Filename = entity name (sanitized) + extension
@@ -82,6 +97,7 @@
 - **Notices** - CRUD + Attachment upload complete
 - **Ambassadors** - CRUD + Public modal complete
 - **Research** - CRUD + Multiple docs + Public modal complete
+- **Projects** - CRUD + Progress bar + Multiple fields + Public display complete
 
 ### Conditional Display (Department/Designation)
 - [x] **Events page** (`src/pages/Events/Events.jsx`) - Faculty cards only show dept/designation if exist
@@ -123,4 +139,6 @@
 - `src/pages/InnovationAmbassadors/InnovationAmbassadors.jsx` - Public modal with conditional display
 - `src/pages/Research/Research.jsx` - Public modal, conditional display, tabs removed
 - `src/admin/pages/Research/AdminResearch.jsx` - Multiple document upload
+- `src/components/cards/ProjectCard.jsx` - Conditional display, progress bar, multiple fields
+- `src/admin/pages/Projects/AdminProjects.jsx` - Technologies array/string handling
 - 13 admin/page/form files - Updated to pass `baseName` for filename generation
