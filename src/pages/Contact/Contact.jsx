@@ -101,19 +101,6 @@ export default function Contact() {
             )}
           </div>
           <div>
-            <span className="eyebrow">Phone</span>
-            {settingsData.phone ? (
-              <a href={`tel:${settingsData.phone}`} className="block mt-2 text-paper hover:text-innovation-blue flex items-center gap-1">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-2v4a2 2 0 0 1-2 2H2" />
-                </svg>
-                <span>{settingsData.phone}</span>
-              </a>
-            ) : (
-              <p className="text-fog text-sm mt-2">Phone number not available</p>
-            )}
-          </div>
-          <div>
             <span className="eyebrow">Location</span>
             {settingsData.address ? (
               <p className="text-fog text-sm mt-2">{settingsData.address}</p>
