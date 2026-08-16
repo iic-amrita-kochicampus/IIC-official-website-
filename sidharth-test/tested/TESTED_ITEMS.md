@@ -84,6 +84,18 @@
 - [x] **Conditional display** - Fields only shown when data exists ✅
 - [x] **Frozen** - No further changes
 
+### Contact Form Management
+- [x] Contact Form CRUD (Add/Edit/Delete) works ✅
+- [x] Name, Email, Department, Category, Subject, Message fields ✅
+- [x] Attachment upload to `query-attachments` bucket ✅
+- [x] Category dropdown (QUERY_CATEGORIES) ✅
+- [x] Department dropdown (global DEPARTMENTS) ✅
+- [x] Status tracking (Open, In Progress, Resolved, Closed) ✅
+- [x] Public page form submission ✅
+- [x] Admin page with status management ✅
+- [x] **All operations verified: Insert, Update, Delete, Display** ✅
+- [x] **Frozen** - No further changes
+
 ### File Upload Pattern
 - [x] All 15 upload calls updated to use `baseName` parameter
 - [x] Filename = entity name (sanitized) + extension
@@ -98,6 +110,7 @@
 - **Ambassadors** - CRUD + Public modal complete
 - **Research** - CRUD + Multiple docs + Public modal complete
 - **Projects** - CRUD + Progress bar + Multiple fields + Public display complete
+- **Contact/Queries** - CRUD + Attachment upload + Status tracking complete
 
 ### Conditional Display (Department/Designation)
 - [x] **Events page** (`src/pages/Events/Events.jsx`) - Faculty cards only show dept/designation if exist
@@ -141,4 +154,8 @@
 - `src/admin/pages/Research/AdminResearch.jsx` - Multiple document upload
 - `src/components/cards/ProjectCard.jsx` - Conditional display, progress bar, multiple fields
 - `src/admin/pages/Projects/AdminProjects.jsx` - Technologies array/string handling
+- `src/components/forms/QueryForm.jsx` - Public contact/query form
+- `src/admin/components/forms/QueryForm.jsx` - Admin query form with status management
+- `src/admin/pages/Queries/AdminQueries.jsx` - Admin queries management with status tracking
+- `src/components/forms/ContactForm.jsx` - Public contact form (if exists)
 - 13 admin/page/form files - Updated to pass `baseName` for filename generation
