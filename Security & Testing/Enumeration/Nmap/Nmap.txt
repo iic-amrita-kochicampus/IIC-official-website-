@@ -1,0 +1,22 @@
+  GNU nano 8.6                                    iicnmap.txt                                              
+# Nmap 7.95 scan initiated Mon Aug 10 09:43:29 2026 as: /usr/lib/nmap/nmap --privileged -sV -o iicnmap.txt>
+Nmap scan report for 192.168.56.1
+Host is up (0.0018s latency).
+Not shown: 991 filtered tcp ports (no-response)
+PORT     STATE SERVICE         VERSION
+135/tcp  open  msrpc           Microsoft Windows RPC
+139/tcp  open  netbios-ssn     Microsoft Windows netbios-ssn
+445/tcp  open  microsoft-ds?
+902/tcp  open  ssl/vmware-auth VMware Authentication Daemon 1.10 (Uses VNC, SOAP)
+912/tcp  open  vmware-auth     VMware Authentication Daemon 1.0 (Uses VNC, SOAP)
+1521/tcp open  oracle-tns      Oracle TNS listener 21.0.0.0.0 (unauthorized)
+2030/tcp open  device2?
+3306/tcp open  tcpwrapped
+5357/tcp open  http            Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Mon Aug 10 09:45:10 2026 -- 1 IP address (1 host up) scanned in 100.59 seconds
+
+
+
