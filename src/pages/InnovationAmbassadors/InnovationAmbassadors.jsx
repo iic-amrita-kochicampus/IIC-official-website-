@@ -39,12 +39,36 @@ export default function InnovationAmbassadors() {
       </Reveal>
 
       <Reveal delay={0.15} className="mt-6 max-w-xl">
-        <p className="text-fog text-sm leading-relaxed">
-          The Innovation Ambassador Program puts a council representative
-          in every department — the first point of contact for ideas,
-          events, and opportunities.
-        </p>
-      </Reveal>
+  <p className="text-fog text-sm leading-relaxed">
+    The Student Innovation Ambassador is a designated student leader trained
+    under the Ministry of Education's Innovation Cell (MIC) and AICTE
+    framework. They serve as a vital link between the student community and
+    the Institution's Innovation Council (IIC).
+  </p>
+
+  <ul className="mt-4 space-y-3 text-fog text-sm leading-relaxed">
+    <li>
+      <span className="font-semibold text-white">Peer Mentoring:</span> Guide
+      fellow students through idea validation, basic design thinking, and
+      early-stage prototype creation.
+    </li>
+    <li>
+      <span className="font-semibold text-white">Idea Facilitation:</span>{" "}
+      Assist in scouting and submitting innovative student ideas to platforms
+      like the YUKTI Innovation Repository.
+    </li>
+    <li>
+      <span className="font-semibold text-white">Event Coordination:</span>{" "}
+      Help organize campus-level hackathons, ideathons, workshops, and
+      entrepreneurship awareness campaigns.
+    </li>
+    <li>
+      <span className="font-semibold text-white">Ecosystem Builder:</span>{" "}
+      Cultivate an active entrepreneurial mindset and encourage risk-taking
+      and problem-solving on campus.
+    </li>
+  </ul>
+</Reveal>
 
       {error && (
         <p className="text-red-400 text-sm mt-4">

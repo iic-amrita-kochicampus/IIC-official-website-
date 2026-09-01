@@ -275,7 +275,7 @@ return (
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 py-3 flex justify-between items-center text-xs text-fog font-mono">
         <span>
           {settingsData.institution_name || 'Amrita Vishwa Vidyapeetham, Kochi Campus'} ·
-          {settingsData.iic_name || 'Institution&apos;s Innovation Council'} ·{' '}
+          {settingsData.iic_name || 'Institution Innovation Council'} ·{' '}
           {new Date().getFullYear()}
         </span>
 
