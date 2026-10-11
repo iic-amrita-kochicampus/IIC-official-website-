@@ -1,0 +1,10 @@
+# Nmap 7.95 scan initiated Tue Oct  6 05:03:52 2026 as: /usr/lib/nmap/nmap --privileged -Pn --top-ports 100 -oN Enumeration/Nmap/02-top100.txt iic-official-website-hazel.vercel.app
+Nmap scan report for iic-official-website-hazel.vercel.app (64.29.17.131)
+Host is up (0.018s latency).
+Other addresses for iic-official-website-hazel.vercel.app (not scanned): 216.198.79.131
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE
+80/tcp  open  http
+443/tcp open  https
+
+# Nmap done at Tue Oct  6 05:04:01 2026 -- 1 IP address (1 host up) scanned in 8.67 seconds

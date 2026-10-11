@@ -1,0 +1,11 @@
+HTTP/2 204 
+cache-control: public, max-age=0, must-revalidate
+content-disposition: inline
+content-security-policy: frame-ancestors 'none'
+date: Tue, 06 Oct 2026 08:50:48 GMT
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+x-frame-options: DENY
+x-vercel-cache: BYPASS
+x-vercel-id: bom1::bsn5m-1791276647999-35b04fe59ca5
+

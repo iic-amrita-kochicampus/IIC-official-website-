@@ -1,0 +1,27 @@
+IIC WEBSITE VAPT ASSESSMENT
+===========================
+
+Target:
+https://iic-official-website-hazel.vercel.app/
+
+Assessment Start:
+2026-10-06
+
+Environment:
+Kali Linux
+
+Assessment Type:
+Web Application VAPT
+
+Status:
+In Progress
+
+Tester:
+Sreenivasa Pai
+
+Authorization:
+Authorized college/IIC website security assessment
+
+Notes:
+Testing is limited to the authorized application.
+No destructive testing or intentional service disruption will be performed.
