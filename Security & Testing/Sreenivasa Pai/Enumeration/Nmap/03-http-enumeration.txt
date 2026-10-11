@@ -1,0 +1,39 @@
+# Nmap 7.95 scan initiated Tue Oct  6 05:04:33 2026 as: /usr/lib/nmap/nmap --privileged -Pn -p 80,443 --script http-title,http-headers -oN Enumeration/Nmap/03-http-enumeration.txt iic-official-website-hazel.vercel.app
+Nmap scan report for iic-official-website-hazel.vercel.app (216.198.79.131)
+Host is up (0.019s latency).
+Other addresses for iic-official-website-hazel.vercel.app (not scanned): 64.29.17.131
+
+PORT    STATE SERVICE
+80/tcp  open  http
+|_http-title: Site doesn't have a title (text/plain).
+| http-headers: 
+|   Content-Type: text/plain
+|   Location: https://iic-official-website-hazel.vercel.app/
+|   Refresh: 0;url=https://iic-official-website-hazel.vercel.app/
+|   server: Vercel
+|   
+|_  (Request type: GET)
+443/tcp open  https
+|_http-title: IIC \xE2\x80\x94 Institution's Innovation Council
+| http-headers: 
+|   Accept-Ranges: bytes
+|   Access-Control-Allow-Origin: *
+|   Age: 4995
+|   Cache-Control: public, max-age=0, must-revalidate
+|   Content-Disposition: inline
+|   Content-Length: 1484
+|   Content-Security-Policy: frame-ancestors 'none'
+|   Content-Type: text/html; charset=utf-8
+|   Date: Tue, 06 Oct 2026 09:04:47 GMT
+|   Etag: "89d3b666a126f52a2631b1a986ddf427"
+|   Last-Modified: Tue, 06 Oct 2026 07:41:32 GMT
+|   Server: Vercel
+|   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+|   X-Frame-Options: DENY
+|   X-Vercel-Cache: HIT
+|   X-Vercel-Id: bom1::dsvvw-1791277487495-5e9ce3fed933
+|   Connection: close
+|   
+|_  (Request type: HEAD)
+
+# Nmap done at Tue Oct  6 05:04:41 2026 -- 1 IP address (1 host up) scanned in 7.49 seconds
